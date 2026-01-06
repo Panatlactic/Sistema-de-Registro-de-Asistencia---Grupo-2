@@ -1,0 +1,40 @@
+# --- JAVA ---
+# Ignorar archivos compilados (el código que ya pasó a .class)
+*.class
+bin/
+out/
+build/
+
+# --- LIBRERÍAS ---
+# Ignoramos las librerías si usas un gestor como Maven/Gradle.
+# Pero si las tienes en la carpeta /lib manualmente, podrías comentarlas.
+# .jar
+
+# --- BASE DE DATOS ---
+# Importante: No ignores tu archivo .sqlite si quieres que tus 
+# compañeros tengan los datos iniciales del DML.
+# Pero si el archivo pesa mucho o contiene datos privados, se ignora:
+# *.sqlite
+
+# Archivos temporales de SQLite (evitan bloqueos de DB en el commit)
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+
+# --- VS CODE ---
+# Configuraciones locales del editor que no deben compartirse
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# --- SISTEMA OPERATIVO ---
+# Archivos basura de Windows y macOS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- TEMPORALES ---
+*.log
+*.tmp
