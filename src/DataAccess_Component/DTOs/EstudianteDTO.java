@@ -1,7 +1,7 @@
-package DataAccess.DTO;
+package DataAccess_Component.DTOs;
 
 public class EstudianteDTO {
-    private Integer PkEstudiante ;    
+    private Integer IdEstudiante ;    
     private Integer IdTarjeta    ;
     private String  Nombre       ;
     private String  Apellido     ;
@@ -14,9 +14,9 @@ public class EstudianteDTO {
 
     public EstudianteDTO() {
     }
-    public EstudianteDTO(Integer pkEstudiante, Integer idTarjeta, String nombre, String apellido, Integer edad,
+    public EstudianteDTO(Integer idEstudiante, Integer idTarjeta, String nombre, String apellido, Integer edad,
             Integer sexo, Integer aula, String estado, Integer fechaCreacion, Integer fechaModifica) {
-        this.PkEstudiante = pkEstudiante;
+        this.IdEstudiante = idEstudiante;
         this.IdTarjeta = idTarjeta;
         this.Nombre = nombre;
         this.Apellido = apellido;
@@ -28,10 +28,10 @@ public class EstudianteDTO {
         this.FechaModifica = fechaModifica;
     }
     public Integer getPkEstudiante() {
-        return PkEstudiante;
+        return IdEstudiante;
     }
-    public void setPkEstudiante(Integer pkEstudiante) {
-        this.PkEstudiante = pkEstudiante;
+    public void setPkEstudiante(Integer idEstudiante) {
+        this.IdEstudiante = idEstudiante;
     }
     public Integer getIdTarjeta() {
         return IdTarjeta;
@@ -91,7 +91,7 @@ public class EstudianteDTO {
     @Override
     public String toString (){
         return "\n" + getClass().getName()
-             + "\nPkEstudiante " + getPkEstudiante()
+             + "\nIdEstudiante " + getPkEstudiante()
              + "\nIdTarjeta " + getIdTarjeta()
              + "\nNombre " + getNombre()
              + "\nApellido " + getApellido()

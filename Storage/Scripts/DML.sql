@@ -1,4 +1,5 @@
 DELETE FROM Estudiante;
+DELETE FROM Credenciales;
 DELETE FROM Curso;
 DELETE FROM Tutor;
 DELETE FROM Sexo;
@@ -18,6 +19,12 @@ VALUES
     ("Lic. Fernando"),
     ("Lic. Francisco"),
     ("Lic. Susana")
+;
+
+INSERT INTO
+    Credenciales (Dueño, Usuario, Clave)
+VALUES
+    (1, "Liliana_69", "9457863")
 ;
 
 INSERT INTO
