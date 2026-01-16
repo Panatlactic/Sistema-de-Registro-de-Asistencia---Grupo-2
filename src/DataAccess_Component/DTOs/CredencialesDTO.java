@@ -6,12 +6,12 @@ public class CredencialesDTO {
     private String  Usuario;
     private String  Clave;
     private String  Estado;
-    private Integer FechaCreacion;
-    private Integer FechaModifica;
+    private String  FechaCreacion;
+    private String  FechaModifica;
     
     public CredencialesDTO (){}
     public CredencialesDTO(Integer idCredencial, Integer dueño, String usuario, String clave, String estado,
-            Integer fechaCreacion, Integer fechaModifica) {
+            String fechaCreacion, String fechaModifica) {
         this.IdCredencial = idCredencial;
         this.Dueño = dueño;
         this.Usuario = usuario;
@@ -51,16 +51,16 @@ public class CredencialesDTO {
     public void setEstado(String estado) {
         this.Estado = estado;
     }
-    public Integer getFechaCreacion() {
+    public String getFechaCreacion() {
         return FechaCreacion;
     }
-    public void setFechaCreacion(Integer fechaCreacion) {
+    public void setFechaCreacion(String fechaCreacion) {
         this.FechaCreacion = fechaCreacion;
     }
-    public Integer getFechaModifica() {
+    public String getFechaModifica() {
         return FechaModifica;
     }
-    public void setFechaModifica(Integer fechaModifica) {
+    public void setFechaModifica(String fechaModifica) {
         this.FechaModifica = fechaModifica;
     }
 

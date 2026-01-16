@@ -41,7 +41,7 @@ CREATE TABLE Curso (
 
 CREATE TABLE Estudiante (
     IdEstudiante    INTEGER PRIMARY KEY AUTOINCREMENT,
-    IdTarjeta       INTEGER NOT NULL UNIQUE,
+    IdTarjeta       VARCHAR(50) NOT NULL UNIQUE,
     Nombre          VARCHAR(50) NOT NULL,
     Apellido        VARCHAR(50) NOT NULL,
     Edad            INTEGER NOT NULL,

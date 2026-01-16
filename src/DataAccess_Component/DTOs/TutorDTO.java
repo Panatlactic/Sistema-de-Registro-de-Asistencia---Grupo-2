@@ -5,11 +5,11 @@ public class TutorDTO {
     private Integer IdTutor;
     private String  NombreTutor;
     private String  Estado       ;
-    private Integer FechaCreacion;
-    private Integer FechaModifica;
+    private String  FechaCreacion;
+    private String  FechaModifica;
 
     public TutorDTO () {}
-    public TutorDTO(Integer idTutor, String nombreTutor, String estado, Integer fechaCreacion, Integer fechaModifica) {
+    public TutorDTO(Integer idTutor, String nombreTutor, String estado, String fechaCreacion, String fechaModifica) {
         this.IdTutor = idTutor;
         this.NombreTutor = nombreTutor;
         this.Estado = estado;
@@ -35,16 +35,16 @@ public class TutorDTO {
     public void setEstado(String estado) {
         this.Estado = estado;
     }
-    public Integer getFechaCreacion() {
+    public String getFechaCreacion() {
         return FechaCreacion;
     }
-    public void setFechaCreacion(Integer fechaCreacion) {
+    public void setFechaCreacion(String fechaCreacion) {
         this.FechaCreacion = fechaCreacion;
     }
-    public Integer getFechaModifica() {
+    public String getFechaModifica() {
         return FechaModifica;
     }
-    public void setFechaModifica(Integer fechaModifica) {
+    public void setFechaModifica(String fechaModifica) {
         this.FechaModifica = fechaModifica;
     }
     
