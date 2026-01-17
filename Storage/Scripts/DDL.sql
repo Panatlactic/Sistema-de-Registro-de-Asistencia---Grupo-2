@@ -44,6 +44,7 @@ CREATE TABLE Estudiante (
     IdTarjeta       VARCHAR(50) NOT NULL UNIQUE,
     Nombre          VARCHAR(50) NOT NULL,
     Apellido        VARCHAR(50) NOT NULL,
+    Cedula          VARCHAR(10) NOT NULL UNIQUE,
     Edad            INTEGER NOT NULL,
     Sexo            INTEGER NOT NULL REFERENCES Sexo (IdSexo),
     Aula            INTEGER NOT NULL REFERENCES Curso (IdCurso),

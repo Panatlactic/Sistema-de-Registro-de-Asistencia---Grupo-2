@@ -36,3 +36,24 @@ VALUES
     ("Segundo de Bachillerato", 4),
     ("Tercero de Bachillerato", 1)
 ;
+
+-- Viewer
+DROP VIEW IF EXISTS ViewEstudiantes;
+
+CREATE VIEW ViewEstudiantes AS
+VALUES
+    E.IdEstudiante,
+    E.IdTarjeta,
+    E.Nombre,
+    E.Apellido,
+    E.Cedula,
+    E.Edad,
+    S.IdSexo AS Sexo,
+    C.IdCurso AS Curso,
+    E.Estado,
+    E.FechaCreacion,
+    E.FechaModifica
+FROM Estudiante         E
+JOIN Sexo               S ON E.Sexo = S.IdSexo
+JOIN Curso              C ON E.Aula = C.IdCurso
+WHERE H.Estado = 'A';

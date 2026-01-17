@@ -5,6 +5,7 @@ public class EstudianteDTO {
     private String IdTarjeta     ;
     private String  Nombre       ;
     private String  Apellido     ;
+    private String  Cedula       ;
     private Integer Edad         ;
     private Integer Sexo         ;
     private Integer Aula         ;
@@ -14,18 +15,26 @@ public class EstudianteDTO {
 
     public EstudianteDTO() {
     }
-    public EstudianteDTO(Integer idEstudiante, String idTarjeta, String nombre, String apellido, Integer edad,
+    public EstudianteDTO(Integer idEstudiante, String idTarjeta, String nombre, String apellido, String cedula, Integer edad,
             Integer sexo, Integer aula, String estado, String fechaCreacion, String fechaModifica) {
         this.IdEstudiante = idEstudiante;
         this.IdTarjeta = idTarjeta;
         this.Nombre = nombre;
         this.Apellido = apellido;
+        this.Cedula = cedula;
         this.Edad = edad;
         this.Sexo = sexo;
         this.Aula = aula;
         this.Estado = estado;
         this.FechaCreacion = fechaCreacion;
         this.FechaModifica = fechaModifica;
+    }
+
+    public String getCedula() {
+        return Cedula;
+    }
+    public void setCedula(String cedula) {
+        this.Cedula = cedula;
     }
     public Integer getPkEstudiante() {
         return IdEstudiante;
@@ -95,6 +104,7 @@ public class EstudianteDTO {
              + "\nIdTarjeta " + getIdTarjeta()
              + "\nNombre " + getNombre()
              + "\nApellido " + getApellido()
+             + "\nCedula " + getCedula()
              + "\nEdad " + getEdad()
              + "\nSexo" + getSexo()
              + "\nAula " + getAula()
