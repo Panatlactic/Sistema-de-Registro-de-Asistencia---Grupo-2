@@ -1,5 +1,5 @@
 
-package BusinessLogic;
+package Business_Component;
 
 import DataAccess_Component.Interfaces.IDAO;
 import Infraestructure_Component.AppException;

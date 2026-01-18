@@ -1,10 +1,11 @@
-import BusinessLogic.Entities.EstudianteBL;
 import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 import Infraestructure_Component.RFIDReaderDevice;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Business_Component.Entities.EstudianteBL;
 
 public class App {
 
@@ -20,7 +21,7 @@ public class App {
 
             RFIDReaderDevice lector = new RFIDReaderDevice("COM3", (codigoLeido) -> {
                 
-                if (modoRegistroActivo) return; 
+                if (modoRegistroActivo) return;
 
                 System.out.println("\n-----------------------------------------");
                 System.out.println("TARJETA DETECTADA: [" + codigoLeido + "]");

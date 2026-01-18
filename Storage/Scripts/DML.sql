@@ -41,7 +41,7 @@ VALUES
 DROP VIEW IF EXISTS ViewEstudiantes;
 
 CREATE VIEW ViewEstudiantes AS
-VALUES
+SELECT
     E.IdEstudiante,
     E.IdTarjeta,
     E.Nombre,
@@ -56,4 +56,4 @@ VALUES
 FROM Estudiante         E
 JOIN Sexo               S ON E.Sexo = S.IdSexo
 JOIN Curso              C ON E.Aula = C.IdCurso
-WHERE H.Estado = 'A';
+WHERE E.Estado = 'A';

@@ -1,10 +1,11 @@
-package BusinessLogic.Entities;
+package Business_Component.Entities;
 
-import BusinessLogic.FactoryBL;
 import DataAccess_Component.DAOs.EstudianteDAO;
 import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 import java.util.List;
+
+import Business_Component.FactoryBL;
 
 public class EstudianteBL {
     private FactoryBL<EstudianteDTO> factory;
