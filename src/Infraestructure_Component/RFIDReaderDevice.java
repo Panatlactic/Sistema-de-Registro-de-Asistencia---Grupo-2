@@ -1,6 +1,9 @@
 package Infraestructure_Component;
 
 import com.fazecast.jSerialComm.SerialPort;
+
+import Business_Component.Entities.BusquedaYRegistro.Registro;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import Infraestructure_Component.Interfaces_Component.RFIDListener;
@@ -51,11 +54,16 @@ public class RFIDReaderDevice implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(){
         BufferedReader reader = null;
+
+        // se instancio registro como nulo
+        Registro registro = null;
         try {
             reader = new BufferedReader(new InputStreamReader(puertoArduino.getInputStream()));
-            
+
+            // se instanció registro
+            registro = new Registro();
             while (activo) {
                 try {
                     if (reader.ready()) {
@@ -67,9 +75,15 @@ public class RFIDReaderDevice implements Runnable {
                             if (listener != null && !codigoLimpio.isEmpty()) {
                               
                                 final String codigo = codigoLimpio;
+                                final Registro registroFinal = registro;
+
                                 new Thread(() -> {
                                     try {
                                         listener.onCardRead(codigo);
+
+                                        // if para guardar la asistencia en el registro
+                                        if (registroFinal != null) registroFinal.guardarAsistencia(codigo);
+
                                     } catch (Exception e) {
                                         System.err.println("[ERROR CALLBACK]: " + e.getMessage());
                                     }
