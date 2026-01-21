@@ -6,9 +6,7 @@ import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 import Infraestructure_Component.RFIDReaderDevice;
 import UserInterface_Component.MainFrame;
-import UserInterface_Component.Panels.MonitorPanel;
-import UserInterface_Component.Panels.RegistroPanel;
-import UserInterface_Component.Panels.StartPanel;
+import UserInterface_Component.Panels.*;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javax.swing.*;
