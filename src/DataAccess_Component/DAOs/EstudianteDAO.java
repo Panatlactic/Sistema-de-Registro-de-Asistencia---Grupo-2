@@ -40,5 +40,29 @@ public class EstudianteDAO extends DataHelperSQLiteDAO <EstudianteDTO>{
         }
         return null; 
     }
-    
+public EstudianteDTO readByCedula(String cedula) throws AppException {
+        String sql = "SELECT * FROM Estudiante WHERE Estado = 'A' AND Cedula = ?";
+        
+        try {
+            Connection conn = openConnection(); 
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, cedula);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                EstudianteDTO resultado = mapResultSetToEntity(rs);
+                
+                rs.close();
+                stmt.close();
+                return resultado;
+            }
+            
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new AppException(e, getClass(), "readByCedula");
+        }
+        return null; 
+    }    
 }
