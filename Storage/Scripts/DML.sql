@@ -25,7 +25,11 @@ INSERT INTO
     Credenciales (Dueño, Usuario, Clave)
 VALUES
     (1, "Liliana_69", "9457863")
-;
+    (2, "Maria_123", "1234567"),
+    (3, "Fernando_456", "7654321"),
+    (4, "Francisco_789", "1122334"),
+    (5, "Susana_321", "4433221")
+    ;
 
 INSERT INTO
     Curso (NombreGrado, DocenteTutor)

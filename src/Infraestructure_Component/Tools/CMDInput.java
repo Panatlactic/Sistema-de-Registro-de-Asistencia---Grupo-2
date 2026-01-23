@@ -17,7 +17,7 @@ public class CMDInput {
             str =  ce_sc.next();
             try {
                 n = Integer.parseInt(str);
-            } catch (Exception _) {
+            } catch (Exception e) {
                 System.out.println(ce_errorMsg);
             }
         }while(n<0);
@@ -41,7 +41,7 @@ public class CMDInput {
         System.out.print("\n\nPress any key..");
         try{
             System.in.read();
-        }catch(Exception _){
+        }catch(Exception e){
             System.out.println("");
         }
     }
