@@ -1,16 +1,7 @@
-package BussinesLogic.Entities.busqueda;
+package BusinessLogic.Entities.busqueda;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import BussinesLogic.Entities.usuario.Usuario;
-import BussinesLogic.FactoryBL;
 import DataAccess_Component.DAOs.EstudianteDAO;
-import DataAccess_Component.DTOs.EstudianteDTODTO;
+import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 
 

@@ -3,6 +3,10 @@ package DataAccess_Component.DAOs;
 import DataAccess_Component.DTOs.TutorDTO;
 import DataAccess_Component.Helper.DataHelperSQLiteDAO;
 import Infraestructure_Component.AppException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TutorDAO extends DataHelperSQLiteDAO <TutorDTO> {
     public TutorDAO () throws AppException{
