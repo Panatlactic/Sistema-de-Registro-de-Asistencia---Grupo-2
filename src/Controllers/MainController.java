@@ -46,7 +46,7 @@ public class MainController {
         // Show GUI
         SwingUtilities.invokeLater(() -> {
             //mainFrame.changePanel(startPanel);
-            mainFrame.changePanel(monitorPanel);
+            mainFrame.changePanel(registroPanel);
             mainFrame.setVisible(true);
         });
     }
