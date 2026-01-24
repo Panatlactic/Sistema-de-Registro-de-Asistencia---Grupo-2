@@ -1,4 +1,8 @@
 import Controllers.MainController;
+import UserInterface_Component.MainFrame;
+import UserInterface_Component.Panels.MonitorPanel;
+import UserInterface_Component.Panels.RegistroPanel;
+
 import javax.swing.SwingUtilities;
 
 public class App {
@@ -6,6 +10,7 @@ public class App {
 
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+            
         } catch (Exception ignored) {
         }
 

@@ -1,13 +1,13 @@
-package Business_Component.Entities.busqueda;
+package Business_Component.Entities.BusquedaYRegistro;
 
 import DataAccess_Component.DAOs.EstudianteDAO;
 import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 
 
-public class BusquedaCedulaBL {
+public class Busqueda {
     
-    public BusquedaCedulaBL() {
+    public Busqueda() {
     }
 
     public boolean existeEstudiante(String cedula) throws AppException {

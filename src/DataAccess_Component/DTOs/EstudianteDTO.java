@@ -42,11 +42,11 @@ public class EstudianteDTO {
         this.Cedula = cedula;
     }
 
-    public Integer getPkEstudiante() {
+    public Integer getIdEstudiante() {
         return IdEstudiante;
     }
 
-    public void setPkEstudiante(Integer idEstudiante) {
+    public void setIdEstudiante(Integer idEstudiante) {
         this.IdEstudiante = idEstudiante;
     }
 
@@ -133,7 +133,7 @@ public class EstudianteDTO {
     @Override
     public String toString() {
         return "\n" + getClass().getName()
-                + "\nIdEstudiante " + getPkEstudiante()
+                + "\nIdEstudiante " + getIdEstudiante()
                 + "\nIdTarjeta " + getIdTarjeta()
                 + "\nNombre " + getNombre()
                 + "\nApellido " + getApellido()
