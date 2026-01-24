@@ -21,18 +21,6 @@ public class AppAction {
         return false;
     }
 
-    public boolean registrarEstudiante (EstudianteDTO estudianteNuevo) throws AppException {
-        try {
-            
-
-            
-        } catch (Exception e) {
-            throw new AppException(e, getClass(), "registrarEstudiante()");
-        }
-
-        return false;
-    }
-
     public boolean eliminiarEstudiante (String cedula) throws AppException {
         try {
 
@@ -43,7 +31,7 @@ public class AppAction {
             if (estudianteDAO.delete(estudiante_borrar.getIdEstudiante())) return true;
             
             return false;
-            
+
         } catch (Exception e) {
             throw new AppException(e, getClass(), "eliminarEstudiante()");
         }
