@@ -24,7 +24,7 @@ public class AppException extends Exception {
         String methodName = (metodo == null || metodo.isBlank()) ? "undefined" : metodo;
         String logMessage = String.format("[ Grupo 2_Exception | %s.%s | %s ]  ❱ %s", className, methodName, timestamp, error);
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(AppConfig.LOGFILE, true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(AppConfig.getLOGFILE(), true))) {
             System.err.println(CMDColor.BLUE  + logMessage);
             writer.println(logMessage);
         } catch (Exception e) {

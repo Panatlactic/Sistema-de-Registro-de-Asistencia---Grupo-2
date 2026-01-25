@@ -2,9 +2,9 @@ package Infraestructure_Component.Tools;
 
 import javax.swing.JOptionPane;
 
-public abstract class MSG {
+public abstract class AppMSG {
 
-    private MSG() {}
+    private AppMSG() {}
     public static final void showMsg(String msg){
         JOptionPane.showMessageDialog(null, msg, "🐜 EcuAnt", JOptionPane.INFORMATION_MESSAGE);
     }

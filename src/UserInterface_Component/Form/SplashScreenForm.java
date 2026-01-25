@@ -1,11 +1,11 @@
-package User_Interface.Form;
+package UserInterface_Component.Form;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-import User_Interface.UIStyle;
+import Infraestructure_Component.AppResources;
 
 import java.awt.BorderLayout;
 
@@ -18,7 +18,7 @@ public abstract class SplashScreenForm {
 
     public static void Show() {
 
-        icoImage = new ImageIcon(UIStyle.URL_SPLASH);
+        icoImage = new ImageIcon(AppResources.getImgSplash());
         lblSplash = new JLabel(icoImage);
         prbLoaging = new JProgressBar(0,100);
 
