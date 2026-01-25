@@ -7,6 +7,8 @@ import java.util.Vector;
 
 public class StartPanel extends JPanel {
 
+    //DE ESTO ME ENCARGO YO
+
     private JComboBox<String> portSelector;
     private JButton btnConnect;
     private JLabel statusLabel;

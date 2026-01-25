@@ -10,7 +10,6 @@ import UserInterface_Component.Panels.*;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javax.swing.*;
-import java.io.File;
 import java.util.Vector;
 
 public class MainController {
@@ -19,6 +18,8 @@ public class MainController {
     private final StartPanel startPanel;
     private final MonitorPanel monitorPanel;
     private final RegistroPanel registroPanel;
+    private final LoginPanel loginPanel;
+    private final HomePanel homePanel;
 
     private RFIDReaderDevice rfidDevice;
     private EstudianteBL estudianteBL;
@@ -30,6 +31,8 @@ public class MainController {
         startPanel = new StartPanel();
         monitorPanel = new MonitorPanel();
         registroPanel = new RegistroPanel();
+        loginPanel = new LoginPanel();
+        homePanel = new HomePanel();
 
         // Initialize Logic
         try {
@@ -46,7 +49,7 @@ public class MainController {
         // Show GUI
         SwingUtilities.invokeLater(() -> {
             //mainFrame.changePanel(startPanel);
-            mainFrame.changePanel(registroPanel);
+            mainFrame.changePanel(homePanel);
             mainFrame.setVisible(true);
         });
     }
