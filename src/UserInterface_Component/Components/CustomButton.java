@@ -1,7 +1,9 @@
 package UserInterface_Component.Components;
 
 import javax.swing.*;
-import UserInterface_Component.Styles.UITheme;
+
+import Infraestructure_Component.AppColors;
+import Infraestructure_Component.AppFonts;
 import java.awt.*;
 
 public class CustomButton extends JButton {
@@ -10,9 +12,9 @@ public class CustomButton extends JButton {
         super(text);
 
         // Fuente y colores
-        setFont(UITheme.SUBTITLE);
-        setBackground(UITheme.PRIMARY);
-        setForeground(UITheme.TEXT_PRIMARY);
+        setFont(AppFonts.normal());
+        setBackground(AppColors.getPrimary());
+        setForeground(AppColors.getTextPrimary());
 
         // IMPORTANTE: esto hace que el botón realmente muestre el color PRIMARY
         setOpaque(true);
@@ -28,8 +30,8 @@ public class CustomButton extends JButton {
     // Botón de éxito (PRIMARY)
     public static CustomButton createSuccessButton(String text) {
         CustomButton btn = new CustomButton(text);
-        btn.setBackground(UITheme.PRIMARY);
-        btn.setForeground(UITheme.TEXT_PRIMARY);
+        btn.setBackground(AppColors.getPrimary());
+        btn.setForeground(AppColors.getTextPrimary());
         return btn;
     }
 

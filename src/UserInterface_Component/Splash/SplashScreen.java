@@ -1,9 +1,10 @@
 package UserInterface_Component.Splash;
 
-import UserInterface_Component.Styles.UIStyle;
-import UserInterface_Component.Styles.UITheme;
-
 import javax.swing.*;
+
+import Infraestructure_Component.AppColors;
+import Infraestructure_Component.AppResources;
+
 import java.awt.*;
 
 public class SplashScreen {
@@ -19,7 +20,7 @@ public class SplashScreen {
         splashWindow.setLayout(null);
 
         // Imagen de fondo (SplashArt)
-        JLabel background = new JLabel(new ImageIcon(UIStyle.SPLASH)); // <- Tu imagen
+        JLabel background = new JLabel(new ImageIcon(AppResources.getImgIcon())); // <- Tu imagen
         background.setBounds(0, 0, 800, 500);
         splashWindow.add(background);
 
@@ -28,7 +29,7 @@ public class SplashScreen {
         progressBar.setBounds(0, 470, 800, 30); // barra en la parte inferior
         progressBar.setMinimum(0);
         progressBar.setMaximum(100);
-        progressBar.setForeground(UITheme.PRIMARY); // color PRIMARY
+        progressBar.setForeground(AppColors.getPrimary()); // color PRIMARY
         progressBar.setBackground(Color.LIGHT_GRAY);
         progressBar.setStringPainted(true);
 

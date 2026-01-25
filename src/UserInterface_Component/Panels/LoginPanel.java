@@ -1,11 +1,13 @@
 package UserInterface_Component.Panels;
 
 import UserInterface_Component.Components.*;
-import UserInterface_Component.Styles.UIStyle;
-import UserInterface_Component.Styles.UITheme;
+import UserInterface_Component.Styles.AppLabels;
 import Business_Component.Entities.LoginTutorBL;
 import DataAccess_Component.DTOs.TutorDTO;
+import Infraestructure_Component.AppColors;
 import Infraestructure_Component.AppException;
+import Infraestructure_Component.AppFonts;
+import Infraestructure_Component.AppResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,16 +21,16 @@ public class LoginPanel extends JPanel {
     public LoginPanel() {
         // Configuración del panel principal
         setLayout(null);
-        setBackground(UITheme.BACKGROUND);
+        setBackground(AppColors.getBackground());
         setBounds(0, 0, 1400, 900); // tamaño fijo
 
         // Imagen de fondo
-        CustomImage iconImage = new CustomImage(UIStyle.ICON, 500, 500);
+        CustomImage iconImage = new CustomImage(AppResources.getImgMain(), 500, 500);
         iconImage.setBounds(100, 115, 500, 500);
         add(iconImage);
 
         // Logo encima de la imagen
-        JLabel logoLabel = UITheme.LOGO_LABEL;
+        JLabel logoLabel = AppLabels.LOGIN_LABEL;
         logoLabel.setBounds(190, 520, 500, 100);
         add(logoLabel);
 
@@ -43,20 +45,20 @@ public class LoginPanel extends JPanel {
 
     private CustomSecondPanel createMainPanel() {
         CustomSecondPanel mainPanel = new CustomSecondPanel();
-        mainPanel.setBackground(UITheme.PANEL); // color del panel
+        mainPanel.setBackground(AppColors.getPanel()); // color del panel
         mainPanel.setRadius(30);
         mainPanel.setLayout(null);
         mainPanel.setOpaque(false); // Opaque para que el botón no se vea blanco
 
         // Label "Login"
-        JLabel loginLabel = UITheme.LOGIN_LABEL;
+        JLabel loginLabel = AppLabels.LOGIN_LABEL;
         loginLabel.setBounds(75, 60, 350, 40);
         mainPanel.add(loginLabel);
 
         // Etiqueta Usuario
         JLabel lblUser = new JLabel("Usuario");
-        lblUser.setForeground(UITheme.TEXT_PRIMARY);
-        lblUser.setFont(UITheme.SUBTITLE);
+        lblUser.setForeground(AppColors.getTextPrimary());
+        lblUser.setFont(AppFonts.boldNormal());
         lblUser.setBounds(75, 150, 100, 25);
         mainPanel.add(lblUser);
 
@@ -68,8 +70,8 @@ public class LoginPanel extends JPanel {
 
         // Etiqueta Contraseña
         JLabel lblPass = new JLabel("Contraseña");
-        lblPass.setForeground(UITheme.TEXT_PRIMARY);
-        lblPass.setFont(UITheme.SUBTITLE);
+        lblPass.setForeground(AppColors.getTextPrimary());
+        lblPass.setFont(AppFonts.boldNormal());
         lblPass.setBounds(75, 250, 200, 25);
         mainPanel.add(lblPass);
 

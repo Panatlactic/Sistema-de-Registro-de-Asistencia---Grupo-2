@@ -1,9 +1,6 @@
 package UserInterface_Component.Components;
-
 import javax.swing.*;
-
-import UserInterface_Component.Styles.UITheme;
-
+import Infraestructure_Component.AppFonts;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -12,7 +9,7 @@ public class CustomTextField extends JTextField {
 
     public CustomTextField(int columns) {
         super(columns);
-        setFont(UITheme.TEXT);
+        setFont(AppFonts.normal());
         setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.GRAY, 1),
             BorderFactory.createEmptyBorder(5, 5, 5, 5)

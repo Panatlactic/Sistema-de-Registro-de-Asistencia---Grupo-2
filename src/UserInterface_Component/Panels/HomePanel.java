@@ -1,9 +1,9 @@
 package UserInterface_Component.Panels;
 
 import UserInterface_Component.Components.CustomButton;
-import UserInterface_Component.Components.CustomSecondPanel;
-import UserInterface_Component.Styles.UITheme;
 import javax.swing.*;
+
+import Infraestructure_Component.AppColors;
 
 public class HomePanel extends JPanel {
 
@@ -12,7 +12,7 @@ public class HomePanel extends JPanel {
     public HomePanel() {
         // Configuración del panel principal
         setLayout(null);
-        setBackground(UITheme.BACKGROUND);
+        setBackground(AppColors.getBackground());
         setBounds(0, 0, 1400, 900); // mismo tamaño que el MainFrame
 
         // Botones superiores

@@ -35,13 +35,13 @@ public abstract class AppConfig {
         }
     }
 
-    static String getProperty(String key) {
-        String path = props.getProperty(key);
-        CMD.println("AppConfig ❱❱ "+ APP_PROPERTIES +"." + key + " : "+ path);
-        if(path != null)
-            return  path;
+    public static String getProperty(String key) {
+        String value = props.getProperty(key);
+        CMD.println("AppConfig ❱❱ "+ APP_PROPERTIES +"." + key + " : "+ value);
+        if(value != null)
+            return  value;
         else
-            CMD.printlnError("ERROR ❱❱ " + APP_PROPERTIES +"." + key + " : "+ path);
+            CMD.printlnError("ERROR ❱❱ " + APP_PROPERTIES +"." + key + " : "+ value);
         return null;
     }
 
