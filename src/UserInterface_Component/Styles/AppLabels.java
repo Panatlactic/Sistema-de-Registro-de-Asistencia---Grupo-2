@@ -28,7 +28,13 @@ public abstract class AppLabels {
         return lbl;
     }
 
+    public static final JLabel LOGO_XLABEL = createLogoxLabel();
 
-
+    private static JLabel createLogoxLabel() {
+        JLabel lbl = new JLabel(AppConfig.getProperty("app.name")); // "CHECKLYN"
+        lbl.setFont(AppFonts.boldxLarge());        
+        lbl.setForeground(AppColors.getTextPrimary()); // color blanco
+        return lbl;
+    }
 
 }

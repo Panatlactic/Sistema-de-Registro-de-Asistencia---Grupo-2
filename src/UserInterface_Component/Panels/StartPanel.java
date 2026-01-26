@@ -5,58 +5,59 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import Infraestructure_Component.AppColors;
+import Infraestructure_Component.AppFonts;
+import UserInterface_Component.Components.CustomButton;
+
 public class StartPanel extends JPanel {
 
-    //DE ESTO ME ENCARGO YO
-
     private JComboBox<String> portSelector;
-    private JButton btnConnect;
+    private CustomButton btnConnect;
     private JLabel statusLabel;
+    private JLabel titleLabel;
 
     public StartPanel() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        // Layout nulo para control pixel-perfect
+        setLayout(null);
+        setBackground(AppColors.getBackground());
+        setBounds(0, 0, 1400, 900);
 
-        // Title
-        JLabel titleLabel = new JLabel("Configuración de Conexión");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(titleLabel, gbc);
+        // Título 
+        titleLabel = new JLabel("Configuración de Conexión");
+        titleLabel.setFont(AppFonts.boldxLarge());
+        titleLabel.setForeground(AppColors.getTextPrimary());
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBounds(0, 50, 1400, 70);
+        add(titleLabel);
 
-        // Port Selector
-        gbc.gridwidth = 1;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Puerto Arduino:"), gbc);
+        // Label Puerto
+        JLabel portLabel = new JLabel("Puerto Arduino:");
+        portLabel.setForeground(AppColors.getTextPrimary());
+        portLabel.setFont(AppFonts.boldLarge());
+        portLabel.setBounds(500, 400, 150, 25); // x, y, ancho, alto
+        add(portLabel);
 
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+        // Combo de puertos
         portSelector = new JComboBox<>();
-        portSelector.setPreferredSize(new Dimension(200, 30));
-        add(portSelector, gbc);
+        portSelector.setBackground(AppColors.getPanel());
+        portSelector.setBounds(650, 395, 200, 30); // x, y, ancho, alto
+        add(portSelector);
 
-        // Connect Button
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        btnConnect = new JButton("Conectar e Iniciar");
-        btnConnect.setPreferredSize(new Dimension(180, 40));
-        btnConnect.setFont(new Font("Arial", Font.BOLD, 14));
-        btnConnect.setBackground(new Color(66, 133, 244)); 
-        btnConnect.setFocusPainted(false);
-        add(btnConnect, gbc);
+        // Botón Conectar (usando CustomButton)
+        btnConnect = CustomButton.createSuccessButton("Conectar e Iniciar");
+        btnConnect.setFont(AppFonts.boldNormal());
+        btnConnect.setBounds(570, 500, 180, 40); // x, y, ancho, alto
+        add(btnConnect);
 
-        // Status Label
-        gbc.gridy = 3;
+        // Status label
         statusLabel = new JLabel(" ");
-        statusLabel.setForeground(Color.RED);
-        add(statusLabel, gbc);
+        statusLabel.setForeground(AppColors.getError());
+        statusLabel.setFont(AppFonts.boldNormal());
+        statusLabel.setBounds(525, 590, 400, 25); // x, y, ancho, alto
+        add(statusLabel);
     }
 
+    
     public void setPortList(Vector<String> ports) {
         portSelector.removeAllItems();
         for (String port : ports) {
@@ -74,6 +75,6 @@ public class StartPanel extends JPanel {
 
     public void setStatus(String message, boolean isError) {
         statusLabel.setText(message);
-        statusLabel.setForeground(isError ? Color.RED : Color.green.darker());
+        statusLabel.setForeground(isError ? Color.RED : Color.GREEN.darker());
     }
 }

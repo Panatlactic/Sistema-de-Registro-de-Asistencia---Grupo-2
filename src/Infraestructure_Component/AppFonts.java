@@ -12,14 +12,10 @@ public abstract class AppFonts {
     // Tamaños estándar
     public static final int SIZE_SMALL = 10;
     public static final int SIZE_NORMAL = 14;
-    public static final int SIZE_LARGE = 18; 
+    public static final int SIZE_LARGE = 18;
+    public static final int SIZE_XLARGE = 60; 
 
-    /*
-     * =========================
-     * Getters de fuentes
-     * =========================
-     */
-
+    // Método privado para crear la fuente
     private static Font font(int style, int size) {
         return new Font(AppConfig.getProperty(FONT_FAMILY), style, size);
     }
@@ -46,5 +42,9 @@ public abstract class AppFonts {
 
     public static Font boldLarge() {
         return font(Font.BOLD, SIZE_LARGE);
+    }
+
+    public static Font boldxLarge() {
+        return font(Font.BOLD, SIZE_XLARGE);
     }
 }

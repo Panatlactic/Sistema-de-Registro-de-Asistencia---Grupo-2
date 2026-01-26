@@ -1,66 +1,64 @@
 package UserInterface_Component.Splash;
 
 import javax.swing.*;
-
-import Infraestructure_Component.AppColors;
-import Infraestructure_Component.AppResources;
-
 import java.awt.*;
+import Infraestructure_Component.AppResources;
+import Infraestructure_Component.AppColors;
 
 public class SplashScreen {
 
-    private JWindow splashWindow;
+    private JWindow window;
     private JProgressBar progressBar;
 
     public SplashScreen() {
         // Crear ventana sin bordes
-        splashWindow = new JWindow();
-        splashWindow.setSize(800, 500);
-        splashWindow.setLocationRelativeTo(null);
-        splashWindow.setLayout(null);
+        window = new JWindow();
+        window.setSize(800, 400); // alto ajustado
+        window.setLocationRelativeTo(null);
 
-        // Imagen de fondo (SplashArt)
-        JLabel background = new JLabel(new ImageIcon(AppResources.getImgIcon())); // <- Tu imagen
-        background.setBounds(0, 0, 800, 500);
-        splashWindow.add(background);
+        // Panel principal que NO tiene fondo
+        JPanel panel = new JPanel(null) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Dibuja la imagen de SplashArt directamente
+                ImageIcon splash = new ImageIcon(AppResources.getImgSplash());
+                g.drawImage(splash.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panel.setOpaque(false);
+        window.setContentPane(panel);
 
-        // Barra de progreso
+        // Barra de progreso **dentro de la ventana**
         progressBar = new JProgressBar();
-        progressBar.setBounds(0, 470, 800, 30); // barra en la parte inferior
+        progressBar.setBounds(0, 370, 800, 30); // posición ajustada dentro del panel
         progressBar.setMinimum(0);
         progressBar.setMaximum(100);
-        progressBar.setForeground(AppColors.getPrimary()); // color PRIMARY
-        progressBar.setBackground(Color.LIGHT_GRAY);
+        progressBar.setForeground(AppColors.getPrimary());
+        progressBar.setBackground(Color.DARK_GRAY);
         progressBar.setStringPainted(true);
+        panel.add(progressBar);
 
-        splashWindow.add(progressBar);
-        splashWindow.setVisible(true);
+        window.setVisible(true);
 
-        cargarSplash();
+        cargarBarra();
     }
 
-    private void cargarSplash() {
-        // Hilo para simular carga
+    private void cargarBarra() {
         new Thread(() -> {
             try {
                 for (int i = 0; i <= 100; i++) {
-                    Thread.sleep(30); // velocidad de la barra
+                    Thread.sleep(30); // velocidad de carga
                     final int valor = i;
                     SwingUtilities.invokeLater(() -> progressBar.setValue(valor));
                 }
-                // Cuando llegue al 100%, cerrar splash y abrir MainController
                 SwingUtilities.invokeLater(() -> {
-                    splashWindow.setVisible(false);
-                    splashWindow.dispose();
-                    new Controllers.MainController();
+                    window.setVisible(false);
+                    window.dispose();
                 });
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-    }
-
-    public static void main(String[] args) {
-        new SplashScreen();
     }
 }

@@ -2,10 +2,7 @@ package UserInterface_Component.Panels;
 
 import UserInterface_Component.Components.*;
 import UserInterface_Component.Styles.AppLabels;
-import Business_Component.Entities.LoginTutorBL;
-import DataAccess_Component.DTOs.TutorDTO;
 import Infraestructure_Component.AppColors;
-import Infraestructure_Component.AppException;
 import Infraestructure_Component.AppFonts;
 import Infraestructure_Component.AppResources;
 
@@ -17,6 +14,7 @@ public class LoginPanel extends JPanel {
     private CustomTextField txtUser;
     private CustomPasswordField txtPassword;
     private JButton btnIngresar;
+    private JLabel statusLabel; // Mensaje de error dentro del panel
 
     public LoginPanel() {
         // Configuración del panel principal
@@ -25,22 +23,27 @@ public class LoginPanel extends JPanel {
         setBounds(0, 0, 1400, 900); // tamaño fijo
 
         // Imagen de fondo
-        CustomImage iconImage = new CustomImage(AppResources.getImgMain(), 500, 500);
+        CustomImage iconImage = new CustomImage(AppResources.getImgIcon(), 500, 500);
         iconImage.setBounds(100, 115, 500, 500);
         add(iconImage);
 
         // Logo encima de la imagen
-        JLabel logoLabel = AppLabels.LOGIN_LABEL;
-        logoLabel.setBounds(190, 520, 500, 100);
-        add(logoLabel);
+        JLabel logoxLabel = AppLabels.LOGO_XLABEL;
+        logoxLabel.setBounds(190, 520, 500, 100);
+        add(logoxLabel);
+
+         // Mensaje de error dentro del panel
+        statusLabel = new JLabel("");
+        statusLabel.setForeground(AppColors.getError());
+        statusLabel.setFont(AppFonts.boldNormal());
+        statusLabel.setBounds(880, 500, 300, 25); // Cambia posición y tamaño si quieres
+        statusLabel.setVisible(false); // Invisible por defecto
+        add(statusLabel);
 
         // Panel principal de login
         CustomSecondPanel loginPanel = createMainPanel();
-        loginPanel.setBounds(800, 200, 450, 500);
+        loginPanel.setBounds(773, 170, 450, 500);
         add(loginPanel);
-
-        // Inicializar acciones
-        initActions();
     }
 
     private CustomSecondPanel createMainPanel() {
@@ -89,32 +92,27 @@ public class LoginPanel extends JPanel {
         return mainPanel;
     }
 
-    private void initActions() {
-        btnIngresar.addActionListener(e -> {
-            String usuario = txtUser.getText();
-            String clave = new String(txtPassword.getPassword());
+    
+    public JButton getBtnIngresar() {
+        return btnIngresar;
+    }
 
-            LoginTutorBL loginBL = new LoginTutorBL();
+    public String getUser() {
+        return txtUser.getText();
+    }
 
-            try {
-                TutorDTO tutor = loginBL.validarLogin(usuario, clave);
+    public String getPassword() {
+        return new String(txtPassword.getPassword());
+    }
 
-                if (tutor != null) {
-                    JOptionPane.showMessageDialog(this,
-                            "Bienvenido " + tutor.getNombreTutor());
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Usuario o contraseña incorrectos",
-                            "Login",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+    // Mostrar mensaje de error dentro del panel por un tiempo
+    public void showErrorMessage(String message, int durationMs) {
+        statusLabel.setText(message);
+        statusLabel.setVisible(true);
 
-            } catch (AppException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Error del sistema",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        // Timer para ocultar el mensaje automáticamente
+        Timer timer = new Timer(durationMs, e -> statusLabel.setVisible(false));
+        timer.setRepeats(false);
+        timer.start();
     }
 }
