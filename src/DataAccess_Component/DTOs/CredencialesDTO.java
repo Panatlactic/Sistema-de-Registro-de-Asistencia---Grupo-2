@@ -2,7 +2,6 @@ package DataAccess_Component.DTOs;
 
 public class CredencialesDTO {
     private Integer IdCredencial;
-    private Integer Dueño;
     private String  Usuario;
     private String  Clave;
     private String  Estado;
@@ -10,10 +9,9 @@ public class CredencialesDTO {
     private String  FechaModifica;
     
     public CredencialesDTO (){}
-    public CredencialesDTO(Integer idCredencial, Integer dueño, String usuario, String clave, String estado,
+    public CredencialesDTO(Integer idCredencial, String usuario, String clave, String estado,
             String fechaCreacion, String fechaModifica) {
         this.IdCredencial = idCredencial;
-        this.Dueño = dueño;
         this.Usuario = usuario;
         this.Clave = clave;
         this.Estado = estado;
@@ -26,12 +24,6 @@ public class CredencialesDTO {
     }
     public void setIdCredencial(Integer idCredencial) {
         this.IdCredencial = idCredencial;
-    }
-    public Integer getDueño() {
-        return Dueño;
-    }
-    public void setDueño(Integer dueño) {
-        this.Dueño = dueño;
     }
     public String getUsuario() {
         return Usuario;
@@ -68,7 +60,6 @@ public class CredencialesDTO {
     public String toString (){
         return "\n" + getClass().getName()
              + "\n IdCredencial " + getIdCredencial()
-             + "\n Dueño " + getDueño()
              + "\n Usuario " + getUsuario()
              + "\n Clave " + getClave()
              + "\n Estado " + getEstado()
