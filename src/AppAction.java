@@ -1,7 +1,7 @@
 import Business_Component.Entities.LoginTutorBL;
 import DataAccess_Component.DAOs.EstudianteDAO;
+import DataAccess_Component.DTOs.CredencialesDTO;
 import DataAccess_Component.DTOs.EstudianteDTO;
-import DataAccess_Component.DTOs.TutorDTO;
 import Infraestructure_Component.AppException;
 
 public class AppAction {
@@ -9,8 +9,8 @@ public class AppAction {
     public boolean ingresar (String usuario, String clave) throws AppException {
         try {
 
-            TutorDTO tutorLogin = new LoginTutorBL().validarLogin(usuario, clave);
-            if (tutorLogin != null){
+            CredencialesDTO credencialesDTO = new LoginTutorBL().validarLogin(usuario, clave);
+            if (credencialesDTO != null){
                 return true;
             }
 

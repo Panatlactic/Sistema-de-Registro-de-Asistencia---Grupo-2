@@ -15,7 +15,7 @@ public class LoginTutorBL {
      * @return 
      * @return 
      */
-    public TutorDTO validarLogin(String usuario, String clave) throws AppException {
+    public CredencialesDTO validarLogin(String usuario, String clave) throws AppException {
         try {
             
             CredencialesDAO credDAO = new CredencialesDAO();
@@ -31,13 +31,11 @@ public class LoginTutorBL {
             if (credencialValidada == null) {
                 return null;
             }
-            TutorDAO tutorDAO = new TutorDAO();
-            TutorDTO tutorLogueado = tutorDAO.readById(credencialValidada.getDueño()); 
 
-            return tutorLogueado;
+            return credencialValidada;
 
         } catch (Exception e) {
-            throw new AppException(e, getClass(), "validarLogin");
+            throw new AppException(e, getClass(), "validarLogin()");
         }
     }
 }
