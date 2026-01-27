@@ -52,7 +52,7 @@ public class MainController {
         // Show GUI
         SwingUtilities.invokeLater(() -> {
             //mainFrame.changePanel(startPanel);
-            mainFrame.changePanel(startPanel);
+            mainFrame.changePanel(loginPanel);
             mainFrame.setVisible(true);
         });
     }
