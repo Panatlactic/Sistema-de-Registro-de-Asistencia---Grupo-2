@@ -15,6 +15,8 @@ public class MonitorPanel extends JPanel {
     public MonitorPanel() {
         setLayout(new BorderLayout());
 
+        //
+
         // --- Header ---
         JLabel title = new JLabel("Monitor de Asistencia", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));

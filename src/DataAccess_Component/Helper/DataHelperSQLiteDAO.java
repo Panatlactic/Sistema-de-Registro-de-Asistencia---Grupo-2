@@ -23,7 +23,7 @@ public class DataHelperSQLiteDAO <T> implements IDAO <T> {
     protected final String  tableName;
     protected final String  tablePK;
 
-    private static final String DBPath = AppConfig.DATABASE; 
+    private static final String DBPath = AppConfig.getDATABASE(); 
     private static Connection conn = null;
 
     protected static synchronized Connection openConnection() throws SQLException {

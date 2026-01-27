@@ -1,0 +1,50 @@
+package Infraestructure_Component;
+import java.awt.Font;
+
+public abstract class AppFonts {
+
+    private AppFonts() {
+    }
+
+    // Keys
+    private static final String FONT_FAMILY = "font.family";
+
+    // Tamaños estándar
+    public static final int SIZE_SMALL = 10;
+    public static final int SIZE_NORMAL = 14;
+    public static final int SIZE_LARGE = 18;
+    public static final int SIZE_XLARGE = 60; 
+
+    // Método privado para crear la fuente
+    private static Font font(int style, int size) {
+        return new Font(AppConfig.getProperty(FONT_FAMILY), style, size);
+    }
+
+    public static Font small() {
+        return font(Font.PLAIN, SIZE_SMALL);
+    }
+
+    public static Font normal() {
+        return font(Font.PLAIN, SIZE_NORMAL);
+    }
+
+    public static Font large() {
+        return font(Font.PLAIN, SIZE_LARGE);
+    }
+
+    public static Font boldSmall() {
+        return font(Font.BOLD, SIZE_SMALL);
+    }
+
+    public static Font boldNormal() {
+        return font(Font.BOLD, SIZE_NORMAL);
+    }
+
+    public static Font boldLarge() {
+        return font(Font.BOLD, SIZE_LARGE);
+    }
+
+    public static Font boldxLarge() {
+        return font(Font.BOLD, SIZE_XLARGE);
+    }
+}

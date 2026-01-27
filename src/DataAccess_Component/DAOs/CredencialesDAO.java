@@ -6,6 +6,6 @@ import Infraestructure_Component.AppException;
 
 public class CredencialesDAO extends DataHelperSQLiteDAO <CredencialesDTO> {
     public CredencialesDAO () throws AppException {
-        super(CredencialesDTO.class, "Credenciales", "IdCredencial");
+        super(CredencialesDTO.class, "Credencial", "IdCredencial");
     }
 }

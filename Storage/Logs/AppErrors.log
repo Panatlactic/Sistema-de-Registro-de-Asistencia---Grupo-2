@@ -1,0 +1,20 @@
+//Control de errores
+[ Grupo 2_Exception | CredencialesDAO.readAll | 2026-01-25 21:41:03 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-25 21:41:03 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-25 21:41:03 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | CredencialesDAO.readAll | 2026-01-25 21:41:05 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-25 21:41:05 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-25 21:41:05 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | CredencialesDAO.readAll | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | CredencialesDAO.readAll | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | CredencialesDAO.readAll | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-25 21:41:06 ]  ? [SQLITE_ERROR] SQL error or missing database (no such table: Credenciales)
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-26 20:25:14 ]  ❱ Cannot invoke "java.lang.Integer.intValue()" because the return value of "DataAccess_Component.DTOs.CredencialesDTO.getDueño()" is null
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-26 20:25:14 ]  ❱ Cannot invoke "java.lang.Integer.intValue()" because the return value of "DataAccess_Component.DTOs.CredencialesDTO.getDueño()" is null
+[ Grupo 2_Exception | LoginTutorBL.validarLogin | 2026-01-26 20:25:32 ]  ❱ Cannot invoke "java.lang.Integer.intValue()" because the return value of "DataAccess_Component.DTOs.CredencialesDTO.getDueño()" is null
+[ Grupo 2_Exception | AppAction.ingresar() | 2026-01-26 20:25:32 ]  ❱ Cannot invoke "java.lang.Integer.intValue()" because the return value of "DataAccess_Component.DTOs.CredencialesDTO.getDueño()" is null

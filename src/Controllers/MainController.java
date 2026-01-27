@@ -6,11 +6,11 @@ import DataAccess_Component.DTOs.EstudianteDTO;
 import Infraestructure_Component.AppException;
 import Infraestructure_Component.RFIDReaderDevice;
 import UserInterface_Component.MainFrame;
+import UserInterface_Component.Actions.AppAction;
 import UserInterface_Component.Panels.*;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javax.swing.*;
-import java.io.File;
 import java.util.Vector;
 
 public class MainController {
@@ -19,6 +19,8 @@ public class MainController {
     private final StartPanel startPanel;
     private final MonitorPanel monitorPanel;
     private final RegistroPanel registroPanel;
+    private final HomePanel homePanel;
+    private final LoginPanel loginPanel;
 
     private RFIDReaderDevice rfidDevice;
     private EstudianteBL estudianteBL;
@@ -30,6 +32,8 @@ public class MainController {
         startPanel = new StartPanel();
         monitorPanel = new MonitorPanel();
         registroPanel = new RegistroPanel();
+        loginPanel = new LoginPanel();
+        homePanel = new HomePanel();
 
         // Initialize Logic
         try {
@@ -42,11 +46,12 @@ public class MainController {
 
         initStartPanel();
         initRegistroPanel();
+        initLoginPanel();
 
         // Show GUI
         SwingUtilities.invokeLater(() -> {
             //mainFrame.changePanel(startPanel);
-            mainFrame.changePanel(registroPanel);
+            mainFrame.changePanel(loginPanel);
             mainFrame.setVisible(true);
         });
     }
@@ -93,13 +98,38 @@ public class MainController {
             try {
                 rfidDevice.start();
                 SwingUtilities.invokeLater(() -> {
-                    // Switch to Monitor Panel on success
-                    mainFrame.changePanel(monitorPanel);
+                    // Switch to Login Panel on success
+                    mainFrame.changePanel(loginPanel);
                 });
             } catch (AppException e) {
                 SwingUtilities.invokeLater(() -> startPanel.setStatus("Error: " + e.getMessage(), true));
             }
         }).start();
+    }
+ 
+    // LOGIN 
+    private void initLoginPanel() {
+        // Obtener botón desde LoginPanel
+        loginPanel.getBtnIngresar().addActionListener(e -> {
+            String usuario = loginPanel.getUser();
+            String clave = loginPanel.getPassword();
+
+            AppAction appAction = new AppAction();
+
+            try {
+                boolean exito = appAction.ingresar(usuario, clave);
+
+                if (exito) {
+                    // Login correcto → cambiar a HomePanel
+                    mainFrame.changePanel(homePanel);
+                } else {
+                    // Login incorrecto → mostrar mensaje rojo por 3 segundos
+                    loginPanel.showErrorMessage("Usuario o contraseña incorrectos", 3000);
+                }
+            } catch (AppException ex) {
+                loginPanel.showErrorMessage("Error de sistema", 3000);
+            }
+        });
     }
 
     /**

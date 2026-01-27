@@ -1,20 +1,11 @@
 package Business_Component.Entities;
 
 import DataAccess_Component.DAOs.CredencialesDAO;
-import DataAccess_Component.DAOs.TutorDAO;
 import DataAccess_Component.DTOs.CredencialesDTO;
-import DataAccess_Component.DTOs.TutorDTO;
 import Infraestructure_Component.AppException;
 
 public class LoginTutorBL {
 
-    /**
-     * Login.
-     * @param usuario
-     * @param clave 
-     * @return 
-     * @return 
-     */
     public CredencialesDTO validarLogin(String usuario, String clave) throws AppException {
         try {
             

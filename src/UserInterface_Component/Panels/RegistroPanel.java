@@ -11,6 +11,8 @@ import java.nio.file.StandardCopyOption;
 
 public class RegistroPanel extends JPanel {
 
+    //AQUI ESTA EL PANEL DE REGISTRO DE ESTUDIANTES
+
     private JTextField txtNombre;
     private JTextField txtApellido;
     private JTextField txtCedula;

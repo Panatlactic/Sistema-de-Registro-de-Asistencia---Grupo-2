@@ -7,7 +7,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Sistema de Asistencia RFID");
-        setSize(800, 600);
+        setSize(1400, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
