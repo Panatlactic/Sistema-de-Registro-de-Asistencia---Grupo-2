@@ -11,7 +11,6 @@ import UserInterface_Component.Panels.*;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javax.swing.*;
-import java.io.File;
 import java.util.Vector;
 
 public class MainController {

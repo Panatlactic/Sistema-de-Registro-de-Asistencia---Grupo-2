@@ -1,7 +1,4 @@
 import Controllers.MainController;
-import UserInterface_Component.MainFrame;
-import UserInterface_Component.Panels.MonitorPanel;
-import UserInterface_Component.Panels.RegistroPanel;
 import UserInterface_Component.Splash.SplashScreen;
 
 import javax.swing.SwingUtilities;
