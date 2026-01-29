@@ -161,7 +161,7 @@ public class RegistroPanel extends JPanel {
         cmbSexo.setForeground(AppColors.getTextPrimary());
         cmbSexo.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(AppColors.getBorder(), 1),
-            new EmptyBorder(5, 10, 5, 10)
+            new EmptyBorder(5 , 10 , 20, 15)
         ));
         // Renderizador personalizado para mejor apariencia
         cmbSexo.setRenderer(new DefaultListCellRenderer() {
@@ -173,9 +173,9 @@ public class RegistroPanel extends JPanel {
                 setBorder(new EmptyBorder(8, 10, 8, 10));
                 if (isSelected) {
                     setBackground(AppColors.getPrimary());
-                    setForeground(Color.WHITE);
+                    setForeground(Color.BLACK);
                 } else {
-                    setBackground(Color.WHITE);
+                    setBackground(Color.BLACK);
                     setForeground(AppColors.getTextPrimary());
                 }
                 if (value == null || value.toString().isEmpty()) {

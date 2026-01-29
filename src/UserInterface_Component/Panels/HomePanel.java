@@ -183,6 +183,42 @@ public class HomePanel extends JPanel {
     // LÓGICA HOME (Business ONLY)
     // =========================================================
 
+
+    public void onCardRead(String codigoTarjeta) {
+        if (codigoTarjeta == null || codigoTarjeta.isBlank())
+            return;
+
+        try {
+            EstudianteDTO estudiante = estudianteBL.validarAcceso(codigoTarjeta.trim());
+
+            if (estudiante != null) {
+
+                appendAttendanceFromEstudiante(estudiante);
+                setStatusMessage("Asistencia registrada: " + estudiante.getNombre());
+
+            } else {
+
+                boolean desea = AppMSG.showConfirmYesNo(
+                        "La tarjeta [" + codigoTarjeta + "] no está registrada.\n" +
+                                "¿Desea registrar un nuevo estudiante?");
+
+                if (desea) {
+                    if (registroHandler != null) {
+                        registroHandler.onRequestRegistro(codigoTarjeta);
+                        setStatusMessage("Redirigiendo a registro para tarjeta: " + codigoTarjeta);
+                    } else {
+                        AppMSG.showError("No hay handler de navegación a RegistroPanel configurado.");
+                    }
+                } else {
+                    setStatusMessage("Tarjeta no registrada (cancelado): " + codigoTarjeta);
+                }
+            }
+
+        } catch (AppException ex) {
+            AppMSG.showError("Error procesando tarjeta: " + ex.getMessage());
+        }
+    }
+
     private void initHomeLogic() {
         // Botón para exportar la tabla de asistencias a CSV
         btnExportarCSV.addActionListener (e -> exportarTablaACSV());

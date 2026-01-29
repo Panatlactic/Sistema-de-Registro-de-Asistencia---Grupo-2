@@ -2,7 +2,6 @@ package Controllers;
 
 import Business_Component.Entities.EstudianteBL;
 import Business_Component.Entities.LoginTutorBL;
-import Business_Component.Entities.BusquedaYRegistro.RecuadroRegistro;
 import Business_Component.Entities.BusquedaYRegistro.Registro;
 import DataAccess_Component.DTOs.EstudianteDTO;
 import DataAccess_Component.DTOs.TutorDTO;
@@ -22,7 +21,6 @@ public class AppStart {
     private final MainFrame mainFrame;
     private final LoginPanel loginPanel;
     private final StartPanel startPanel;
-    private final RecuadroRegistro recuadroRegistro;
     private final HomePanel homePanel;
     private final RegistroPanel registroPanel;
 
@@ -44,7 +42,6 @@ public class AppStart {
         mainFrame = new MainFrame();
         loginPanel = new LoginPanel();
         startPanel = new StartPanel();
-        recuadroRegistro = new RecuadroRegistro();
         homePanel = new HomePanel();
         registroPanel = new RegistroPanel();
 
@@ -211,7 +208,7 @@ public class AppStart {
         SwingUtilities.invokeLater(() -> {
             System.out.println("[RFID-CB] En EDT, rfidEnabled=" + rfidEnabled);
             if (rfidEnabled) { // Doble verificación en EDT
-                recuadroRegistro.onCardRead(codigoTarjeta);
+                homePanel.onCardRead(codigoTarjeta);
             }
         });
     }

@@ -58,10 +58,10 @@ CREATE TABLE Curso (
 
 CREATE TABLE Estudiante (
     IdEstudiante    INTEGER PRIMARY KEY AUTOINCREMENT,
-    IdTarjeta       VARCHAR(50) NOT NULL UNIQUE,
+    IdTarjeta       VARCHAR(50) NOT NULL,
     Nombre          VARCHAR(15) NOT NULL,
     Apellido        VARCHAR(15) NOT NULL,
-    Cedula          VARCHAR(10) NOT NULL UNIQUE,
+    Cedula          VARCHAR(10) NOT NULL,
     Edad            INTEGER NOT NULL,
     Sexo            INTEGER NOT NULL REFERENCES Sexo (IdSexo),
     IdCurso            INTEGER NOT NULL REFERENCES Curso (IdCurso),
@@ -69,3 +69,8 @@ CREATE TABLE Estudiante (
     FechaCreacion   DATETIME NOT NULL DEFAULT(datetime('now', 'localtime')),
     FechaModifica   DATETIME NOT NULL DEFAULT(datetime('now', 'localtime'))
 );
+
+-- SOLUCIÓN TÉCNICA: Índices Únicos Condicionales
+-- Esto permite que el borrado lógico (Estado='X') no bloquee la unicidad de tarjetas activas.
+CREATE UNIQUE INDEX idx_IdTarjeta_Activo ON Estudiante (IdTarjeta) WHERE Estado = 'A';
+CREATE UNIQUE INDEX idx_Cedula_Activa ON Estudiante (Cedula) WHERE Estado = 'A';
