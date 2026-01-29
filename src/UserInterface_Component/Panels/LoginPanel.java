@@ -1,118 +1,225 @@
 package UserInterface_Component.Panels;
 
-import UserInterface_Component.Components.*;
-import UserInterface_Component.Styles.AppLabels;
-import Infraestructure_Component.AppColors;
-import Infraestructure_Component.AppFonts;
-import Infraestructure_Component.AppResources;
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppFonts;
+import Infraestructure_Component.Tools.AppUIConstants;
+import UserInterface_Component.Components.CustomButton;
+import UserInterface_Component.Components.CustomPasswordField;
+import UserInterface_Component.Components.CustomSecondPanel;
+import UserInterface_Component.Components.CustomTextField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+/**
+ * Panel de login para tutores.
+ * Diseño unificado con el resto de la aplicación.
+ */
 public class LoginPanel extends JPanel {
 
     private CustomTextField txtUser;
     private CustomPasswordField txtPassword;
-    private JButton btnIngresar;
-    private JLabel statusLabel; // Mensaje de error dentro del panel
+    private CustomButton btnIngresar;
+    private JLabel lblError;
+
+    // Control para evitar múltiples listeners
+    private boolean listenerConfigured = false;
 
     public LoginPanel() {
-        // Configuración del panel principal
-        setLayout(null);
+        setLayout(new GridBagLayout());
         setBackground(AppColors.getBackground());
-        setBounds(0, 0, 1400, 900); // tamaño fijo
 
-        // Imagen de fondo
-        CustomImage iconImage = new CustomImage(AppResources.getImgIcon(), 500, 500);
-        iconImage.setBounds(100, 115, 500, 500);
-        add(iconImage);
+        // ===== CONTENEDOR PRINCIPAL =====
+        JPanel mainContainer = new JPanel();
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
+        mainContainer.setOpaque(false);
 
-        // Logo encima de la imagen
-        JLabel logoxLabel = AppLabels.LOGO_XLABEL;
-        logoxLabel.setBounds(190, 520, 500, 100);
-        add(logoxLabel);
+        // ===== TÍTULO SUPERIOR =====
+        JLabel lblTitle = new JLabel("Sistema de Asistencia RFID");
+        lblTitle.setFont(new Font("Helvetica", Font.BOLD, 28));
+        lblTitle.setForeground(AppColors.getTextPrimary());
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(lblTitle);
+        mainContainer.add(Box.createVerticalStrut(15));
 
-         // Mensaje de error dentro del panel
-        statusLabel = new JLabel("");
-        statusLabel.setForeground(AppColors.getError());
-        statusLabel.setFont(AppFonts.boldNormal());
-        statusLabel.setBounds(880, 500, 300, 25); // Cambia posición y tamaño si quieres
-        statusLabel.setVisible(false); // Invisible por defecto
-        add(statusLabel);
+        // Subtítulo
+        JLabel lblSubtitle = new JLabel("Control de asistencia estudiantil");
+        lblSubtitle.setFont(AppFonts.normal());
+        lblSubtitle.setForeground(AppColors.getTextSecondary());
+        lblSubtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(lblSubtitle);
+        mainContainer.add(Box.createVerticalStrut(40));
 
-        // Panel principal de login
-        CustomSecondPanel loginPanel = createMainPanel();
-        loginPanel.setBounds(773, 170, 450, 500);
-        add(loginPanel);
-    }
+        // ===== CARD DE LOGIN =====
+        CustomSecondPanel cardPanel = new CustomSecondPanel();
+        cardPanel.setBackground(AppColors.getPanel());
+        cardPanel.setRadius(20);
+        cardPanel.setLayout(new GridBagLayout());
+        cardPanel.setPreferredSize(new Dimension(420, 400));
+        cardPanel.setMaximumSize(new Dimension(420, 400));
 
-    private CustomSecondPanel createMainPanel() {
-        CustomSecondPanel mainPanel = new CustomSecondPanel();
-        mainPanel.setBackground(AppColors.getPanel()); // color del panel
-        mainPanel.setRadius(30);
-        mainPanel.setLayout(null);
-        mainPanel.setOpaque(false); // Opaque para que el botón no se vea blanco
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 30, 8, 30);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
 
-        // Label "Login"
-        JLabel loginLabel = AppLabels.LOGIN_LABEL;
-        loginLabel.setBounds(75, 60, 350, 40);
-        mainPanel.add(loginLabel);
+        // Icono de usuario (simulado con texto)
+        JLabel lblIcon = new JLabel("👤", SwingConstants.CENTER);
+        lblIcon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        lblIcon.setForeground(AppColors.getPrimary());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(25, 30, 5, 30);
+        cardPanel.add(lblIcon, gbc);
 
-        // Etiqueta Usuario
-        JLabel lblUser = new JLabel("Usuario");
-        lblUser.setForeground(AppColors.getTextPrimary());
-        lblUser.setFont(AppFonts.boldNormal());
-        lblUser.setBounds(75, 150, 100, 25);
-        mainPanel.add(lblUser);
+        // Título del card
+        JLabel lblLoginTitle = new JLabel("Iniciar Sesión", SwingConstants.CENTER);
+        lblLoginTitle.setFont(new Font("Helvetica", Font.BOLD, 22));
+        lblLoginTitle.setForeground(AppColors.getTextPrimary());
+        gbc.gridy = 1;
+        gbc.insets = new Insets(5, 30, 5, 30);
+        cardPanel.add(lblLoginTitle, gbc);
+
+        // Descripción
+        JLabel lblDesc = new JLabel("Ingresa tus credenciales de tutor", SwingConstants.CENTER);
+        lblDesc.setFont(AppFonts.small());
+        lblDesc.setForeground(AppColors.getTextSecondary());
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 30, 20, 30);
+        cardPanel.add(lblDesc, gbc);
 
         // Campo Usuario
-        txtUser = new CustomTextField(20);
-        txtUser.setBounds(75, 180, 300, 30);
-        txtUser.setBackground(Color.WHITE);
-        mainPanel.add(txtUser);
-
-        // Etiqueta Contraseña
-        JLabel lblPass = new JLabel("Contraseña");
-        lblPass.setForeground(AppColors.getTextPrimary());
-        lblPass.setFont(AppFonts.boldNormal());
-        lblPass.setBounds(75, 250, 200, 25);
-        mainPanel.add(lblPass);
+        gbc.gridy = 3;
+        gbc.insets = new Insets(5, 30, 5, 30);
+        txtUser = new CustomTextField(25);
+        txtUser.setFont(AppFonts.normal());
+        txtUser.setPreferredSize(new Dimension(340, 42));
+        txtUser.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(AppColors.getBorder(), 1),
+            BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
+        
+        // Placeholder para usuario
+        JPanel userPanel = createFieldPanel("Usuario", txtUser);
+        cardPanel.add(userPanel, gbc);
 
         // Campo Contraseña
-        txtPassword = new CustomPasswordField(20);
-        txtPassword.setBounds(75, 280, 300, 30);
-        txtPassword.setBackground(Color.WHITE);
-        mainPanel.add(txtPassword);
+        gbc.gridy = 4;
+        gbc.insets = new Insets(10, 30, 5, 30);
+        txtPassword = new CustomPasswordField(25);
+        txtPassword.setFont(AppFonts.normal());
+        txtPassword.setPreferredSize(new Dimension(340, 42));
+        txtPassword.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(AppColors.getBorder(), 1),
+            BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
+        
+        JPanel passPanel = createFieldPanel("Contraseña", txtPassword);
+        cardPanel.add(passPanel, gbc);
+
+        // Label de error
+        gbc.gridy = 5;
+        gbc.insets = new Insets(10, 30, 5, 30);
+        lblError = new JLabel(" ", SwingConstants.CENTER);
+        lblError.setFont(AppFonts.small());
+        lblError.setForeground(AppColors.getError());
+        cardPanel.add(lblError, gbc);
 
         // Botón Ingresar
-        btnIngresar = CustomButton.createSuccessButton("Ingresar");
-        btnIngresar.setBounds(75, 370, 300, 70);
-        mainPanel.add(btnIngresar);
+        gbc.gridy = 6;
+        gbc.insets = new Insets(10, 30, 25, 30);
+        btnIngresar = CustomButton.success("Ingresar");
+        btnIngresar.setPreferredSize(new Dimension(340, 48));
+        btnIngresar.setFont(new Font("Helvetica", Font.BOLD, 15));
+        btnIngresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        cardPanel.add(btnIngresar, gbc);
 
-        return mainPanel;
+        // Permitir Enter para hacer login
+        KeyAdapter enterKeyAdapter = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnIngresar.doClick();
+                }
+            }
+        };
+        txtUser.addKeyListener(enterKeyAdapter);
+        txtPassword.addKeyListener(enterKeyAdapter);
+
+        // Añadir card al contenedor
+        cardPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(cardPanel);
+        mainContainer.add(Box.createVerticalStrut(30));
+
+        // ===== FOOTER =====
+        JLabel lblFooter = new JLabel("© 2026 - Sistema de Asistencia RFID v1.0");
+        lblFooter.setFont(AppFonts.small());
+        lblFooter.setForeground(AppColors.getTextSecondary());
+        lblFooter.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(lblFooter);
+
+        add(mainContainer);
     }
 
-    
-    public JButton getBtnIngresar() {
-        return btnIngresar;
+    /**
+     * Crea un panel con etiqueta y campo de texto.
+     */
+    private JPanel createFieldPanel(String labelText, JComponent field) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+
+        JLabel label = new JLabel(labelText);
+        label.setFont(AppFonts.boldNormal());
+        label.setForeground(AppColors.getTextPrimary());
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        field.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        panel.add(label);
+        panel.add(Box.createVerticalStrut(6));
+        panel.add(field);
+
+        return panel;
     }
 
-    public String getUser() {
-        return txtUser.getText();
+
+    // ===== Métodos públicos =====
+
+    public String getUsuario() {
+        return txtUser.getText().trim();
     }
 
-    public String getPassword() {
+    public String getClave() {
         return new String(txtPassword.getPassword());
     }
 
-    // Mostrar mensaje de error dentro del panel por un tiempo
-    public void showErrorMessage(String message, int durationMs) {
-        statusLabel.setText(message);
-        statusLabel.setVisible(true);
+    public void mostrarError(String mensaje) {
+        lblError.setText(mensaje);
+        lblError.setForeground(AppColors.getError());
+    }
 
-        // Timer para ocultar el mensaje automáticamente
-        Timer timer = new Timer(durationMs, e -> statusLabel.setVisible(false));
-        timer.setRepeats(false);
-        timer.start();
+    public void limpiarError() {
+        lblError.setText(" ");
+    }
+
+    public void limpiarCampos() {
+        txtUser.setText("");
+        txtPassword.setText("");
+        limpiarError();
+    }
+
+    public void addIngresarListener(ActionListener listener) {
+        if (!listenerConfigured) {
+            btnIngresar.addActionListener(listener);
+            listenerConfigured = true;
+        }
+    }
+
+    public void enfocarUsuario() {
+        SwingUtilities.invokeLater(() -> txtUser.requestFocusInWindow());
     }
 }

@@ -1,5 +1,9 @@
 package DataAccess_Component.DTOs;
 
+/**
+ * DTO para la entidad Estudiante.
+ * Los nombres de campos deben coincidir EXACTAMENTE con las columnas de la BD.
+ */
 public class EstudianteDTO {
     private Integer IdEstudiante;
     private String IdTarjeta;
@@ -8,18 +12,16 @@ public class EstudianteDTO {
     private String Cedula;
     private Integer Edad;
     private Integer Sexo;
-    private Integer Aula;
+    private Integer IdCurso; // Coincide con la columna de la BD
     private String Estado;
     private String FechaCreacion;
     private String FechaModifica;
-    private String FotoPath; // New Field
 
     public EstudianteDTO() {
     }
 
     public EstudianteDTO(Integer idEstudiante, String idTarjeta, String nombre, String apellido, String cedula,
-            Integer edad,
-            Integer sexo, Integer aula, String estado, String fechaCreacion, String fechaModifica, String fotoPath) {
+            Integer edad, Integer sexo, Integer idCurso, String estado, String fechaCreacion, String fechaModifica) {
         this.IdEstudiante = idEstudiante;
         this.IdTarjeta = idTarjeta;
         this.Nombre = nombre;
@@ -27,11 +29,10 @@ public class EstudianteDTO {
         this.Cedula = cedula;
         this.Edad = edad;
         this.Sexo = sexo;
-        this.Aula = aula;
+        this.IdCurso = idCurso;
         this.Estado = estado;
         this.FechaCreacion = fechaCreacion;
         this.FechaModifica = fechaModifica;
-        this.FotoPath = fotoPath;
     }
 
     public String getCedula() {
@@ -90,12 +91,22 @@ public class EstudianteDTO {
         this.Sexo = sexo;
     }
 
+    // Getter/Setter para IdCurso (compatibilidad con getAula/setAula)
+    public Integer getIdCurso() {
+        return IdCurso;
+    }
+
+    public void setIdCurso(Integer idCurso) {
+        this.IdCurso = idCurso;
+    }
+
+    // Alias para compatibilidad con código existente
     public Integer getAula() {
-        return Aula;
+        return IdCurso;
     }
 
     public void setAula(Integer aula) {
-        this.Aula = aula;
+        this.IdCurso = aula;
     }
 
     public String getEstado() {
@@ -122,28 +133,19 @@ public class EstudianteDTO {
         this.FechaModifica = fechaModifica;
     }
 
-    public String getFotoPath() {
-        return FotoPath;
-    }
-
-    public void setFotoPath(String fotoPath) {
-        this.FotoPath = fotoPath;
-    }
-
     @Override
     public String toString() {
         return "\n" + getClass().getName()
-                + "\nIdEstudiante " + getIdEstudiante()
-                + "\nIdTarjeta " + getIdTarjeta()
-                + "\nNombre " + getNombre()
-                + "\nApellido " + getApellido()
-                + "\nCedula " + getCedula()
-                + "\nEdad " + getEdad()
-                + "\nSexo" + getSexo()
-                + "\nAula " + getAula()
-                + "\nEstado " + getEstado()
-                + "\nFechaCreacion " + getFechaCreacion()
-                + "\nFechaModifica " + getFechaModifica()
-                + "\nFotoPath " + getFotoPath();
+                + "\nIdEstudiante: " + getIdEstudiante()
+                + "\nIdTarjeta: " + getIdTarjeta()
+                + "\nNombre: " + getNombre()
+                + "\nApellido: " + getApellido()
+                + "\nCedula: " + getCedula()
+                + "\nEdad: " + getEdad()
+                + "\nSexo: " + getSexo()
+                + "\nIdCurso: " + getIdCurso()
+                + "\nEstado: " + getEstado()
+                + "\nFechaCreacion: " + getFechaCreacion()
+                + "\nFechaModifica: " + getFechaModifica();
     }
 }

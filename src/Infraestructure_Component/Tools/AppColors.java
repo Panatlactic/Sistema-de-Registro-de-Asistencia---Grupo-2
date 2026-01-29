@@ -1,7 +1,7 @@
-package Infraestructure_Component;
+package Infraestructure_Component.Tools;
 import java.awt.Color;
 
-import Infraestructure_Component.Tools.CMD;
+import Infraestructure_Component.AppConfig;
 
 public abstract class AppColors {
 

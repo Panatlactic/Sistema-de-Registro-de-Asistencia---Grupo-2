@@ -1,4 +1,4 @@
-package Infraestructure_Component;
+package Infraestructure_Component.Tools;
 
 import java.awt.Cursor;
 import java.awt.Color;
@@ -39,9 +39,9 @@ public abstract class AppUIConstants {
      * ===========================================================
      */
     public static final int PADDING_XS = 4;
-    public static final int PADDING_SM = 8;
-    public static final int PADDING_MD = 12;
-    public static final int PADDING_LG = 16;
+    public static final int PADDING_S = 8;
+    public static final int PADDING_M = 12;
+    public static final int PADDING_L = 16;
 
     /*
      * ============================================================
@@ -94,6 +94,6 @@ public abstract class AppUIConstants {
      * @return CompoundBorder configurado para paneles
      */
     public static CompoundBorder panelBorder() {
-        return bordered(AppColors.getBorder(), PADDING_SM);
+        return bordered(AppColors.getBorder(), PADDING_S);
     }
 }

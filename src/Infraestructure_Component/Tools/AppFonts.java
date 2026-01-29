@@ -1,5 +1,7 @@
-package Infraestructure_Component;
+package Infraestructure_Component.Tools;
 import java.awt.Font;
+
+import Infraestructure_Component.AppConfig;
 
 public abstract class AppFonts {
 
@@ -12,24 +14,28 @@ public abstract class AppFonts {
     // Tamaños estándar
     public static final int SIZE_SMALL = 10;
     public static final int SIZE_NORMAL = 14;
-    public static final int SIZE_LARGE = 18;
-    public static final int SIZE_XLARGE = 60; 
+    public static final int SIZE_LARGE = 18; 
 
-    // Método privado para crear la fuente
+    /*
+     * =========================
+     * Getters de fuentes
+     * =========================
+     */
+
     private static Font font(int style, int size) {
         return new Font(AppConfig.getProperty(FONT_FAMILY), style, size);
     }
 
     public static Font small() {
-        return font(Font.PLAIN, SIZE_SMALL);
+        return font(Font.BOLD, SIZE_SMALL);
     }
 
     public static Font normal() {
-        return font(Font.PLAIN, SIZE_NORMAL);
+        return font(Font.BOLD, SIZE_NORMAL);
     }
 
     public static Font large() {
-        return font(Font.PLAIN, SIZE_LARGE);
+        return font(Font.BOLD, SIZE_LARGE);
     }
 
     public static Font boldSmall() {
@@ -42,9 +48,5 @@ public abstract class AppFonts {
 
     public static Font boldLarge() {
         return font(Font.BOLD, SIZE_LARGE);
-    }
-
-    public static Font boldxLarge() {
-        return font(Font.BOLD, SIZE_XLARGE);
     }
 }

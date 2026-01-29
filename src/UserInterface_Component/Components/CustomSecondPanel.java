@@ -3,6 +3,8 @@ package UserInterface_Component.Components;
 import javax.swing.*;
 import java.awt.*;
 
+import Infraestructure_Component.Tools.AppUIConstants;
+
 public class CustomSecondPanel extends JPanel {
 
     private int radius = 20;
@@ -23,14 +25,7 @@ public class CustomSecondPanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(getBackground());
-        g2.fillRoundRect(
-                0,
-                0,
-                getWidth(),
-                getHeight(),
-                radius,
-                radius
-        );
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
         g2.dispose();
         super.paintComponent(g);
@@ -38,6 +33,7 @@ public class CustomSecondPanel extends JPanel {
 
     @Override
     public Insets getInsets() {
-        return new Insets(15, 15, 15, 15);
+        return new Insets(AppUIConstants.PADDING_M, AppUIConstants.PADDING_M, AppUIConstants.PADDING_M,
+                AppUIConstants.PADDING_M);
     }
 }

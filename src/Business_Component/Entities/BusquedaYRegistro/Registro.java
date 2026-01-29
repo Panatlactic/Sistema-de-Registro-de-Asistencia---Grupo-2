@@ -7,85 +7,56 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import Business_Component.FactoryBL;
-import DataAccess_Component.DAOs.EstudianteDAO;
-import DataAccess_Component.DTOs.EstudianteDTO;
-import Infraestructure_Component.AppException;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
 
 public class Registro {
 
-    private FactoryBL<EstudianteDTO> factory;
-
-    public Registro () throws AppException {
-        try {
-
-            this.factory = new FactoryBL<>(EstudianteDAO.class);
-
-        } catch (Exception e) {
-
-            throw new AppException(e, getClass(), "Constructor");
-
-        }
-    }
-
-    public EstudianteDTO buscarIdTarjeta (String IdTarjeta) throws AppException {
-        try {
-            EstudianteDAO estudianteDAO = new EstudianteDAO();
-            for (EstudianteDTO estudianteDTO : estudianteDAO.readAll()){
-                if (estudianteDTO.getIdTarjeta().equals(IdTarjeta)) return estudianteDTO;
-            }
-            return null;
-        } catch (Exception e) {
-            throw new AppException(e, getClass(), "buscarIdTarjeta()");
-        }
-    }
-
-    public void exportarDatosEstudiante (EstudianteDTO estudiante) throws AppException {
+    public static File exportarTablaACSV(DefaultTableModel attendanceModel) throws IOException {
+        // Generar nombre basado en fecha y hora
         String fechaHoy = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String nombreArchivo = "Asistencias_" + fechaHoy + ".csv";
+        String horaExport = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss"));
+        String nombreArchivo = "Asistencias_" + fechaHoy + "_" + horaExport + ".csv";
         
-        String rutaCarpeta = System.getProperty("user.home") + File.separator + "Asistencias";
-        File carpeta = new File(rutaCarpeta);
-        
-        if (!carpeta.exists()) {
-            carpeta.mkdirs();
+        // Localizar escritorio y carpeta
+        String rutaEscritorio = FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath();
+        File carpetaDestino = new File(rutaEscritorio, "Asistencia");
+
+        if (!carpetaDestino.exists()) {
+            carpetaDestino.mkdirs();
         }
 
-        File archivo = new File(carpeta, nombreArchivo);
-        boolean esNuevo = !archivo.exists();
+        File archivo = new File(carpetaDestino, nombreArchivo);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
+        // Escritura del CSV
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+            int colCount = attendanceModel.getColumnCount();
+            int rowCount = attendanceModel.getRowCount();
 
-            if (esNuevo) {
-                writer.write("Cedula,Nombre,Fecha,Hora,IdTarjeta");
-                writer.newLine();
+            // Escribir encabezados
+            StringBuilder headerLine = new StringBuilder();
+            for (int col = 0; col < colCount; col++) {
+                if (col > 0) headerLine.append(";");
+                headerLine.append(attendanceModel.getColumnName(col));
             }
-
-            String horaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-            String linea = String.format("%s,%s,%s,%s,%s",
-                    estudiante.getCedula(), 
-                    estudiante.getNombre(),
-                    fechaHoy,
-                    horaActual,
-                    estudiante.getIdTarjeta());
-
-            writer.write(linea);
+            writer.write(headerLine.toString());
             writer.newLine();
 
-        } catch (IOException e) {
-            throw new AppException(e, getClass(), "exportarDatosEstudiante()");
+            // Escribir datos de las filas
+            for (int row = 0; row < rowCount; row++) {
+                StringBuilder dataLine = new StringBuilder();
+                for (int col = 0; col < colCount; col++) {
+                    if (col > 0) dataLine.append(";");
+                    Object value = attendanceModel.getValueAt(row, col);
+                    // Reemplazamos puntos y comas internos para no dañar el CSV
+                    String cellValue = (value != null) ? value.toString().replace(";", ",") : "";
+                    dataLine.append(cellValue);
+                }
+                writer.write(dataLine.toString());
+                writer.newLine();
+            }
         }
+        return archivo;
     }
 
-    public void guardarAsistencia (String IdTarjeta) throws AppException {
-        try {
-            EstudianteDTO estudiante = buscarIdTarjeta(IdTarjeta);
-            if (estudiante != null){
-                exportarDatosEstudiante(estudiante);
-            }
-        } catch (Exception e) {
-            throw new AppException(e, getClass(), "guardarAsistencia()");
-        }
-    }
 }

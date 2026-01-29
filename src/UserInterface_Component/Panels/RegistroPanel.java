@@ -1,236 +1,374 @@
 package UserInterface_Component.Panels;
 
 import DataAccess_Component.DTOs.EstudianteDTO;
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppFonts;
+import Infraestructure_Component.Tools.AppUIConstants;
+import UserInterface_Component.Components.CustomButton;
+import UserInterface_Component.Components.CustomSecondPanel;
+import UserInterface_Component.Components.CustomTextField;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
+/**
+ * Panel de registro de nuevos estudiantes.
+ * Diseño unificado con el resto de la aplicación.
+ */
 public class RegistroPanel extends JPanel {
 
-    //AQUI ESTA EL PANEL DE REGISTRO DE ESTUDIANTES
+    // ===== Campos del formulario =====
+    private final JLabel lblIdTarjeta;
+    private final CustomTextField txtNombre;
+    private final CustomTextField txtApellido;
+    private final CustomTextField txtCedula;
+    private final CustomTextField txtEdad;
+    private final JComboBox<String> cmbSexo;
+    private final CustomTextField txtAula;
 
-    private JTextField txtNombre;
-    private JTextField txtApellido;
-    private JTextField txtCedula;
-    private JTextField txtEdad;
-    private JComboBox<String> cmbSexo; // 1=M, 2=F
-    private JTextField txtAula;
-    private JLabel lblIdTarjeta;
-    private JButton btnGuardar;
-    private JButton btnCancelar;
+    // ===== Botones =====
+    private final CustomButton btnGuardar;
+    private final CustomButton btnCancelar;
 
-    // Photo Support
-    private JButton btnFoto;
-    private JLabel lblFotoPath;
-    private File selectedPhotoFile;
+    // Ancho estándar para campos de texto
+    private static final int FIELD_WIDTH = 320;
+    private static final int FIELD_HEIGHT = 40;
 
     public RegistroPanel() {
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
+        setBackground(AppColors.getBackground());
 
-        // Title
-        JLabel title = new JLabel("Registrar Nuevo Estudiante", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
-        add(title, BorderLayout.NORTH);
+        // ===== CONTENEDOR PRINCIPAL =====
+        JPanel mainContainer = new JPanel();
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
+        mainContainer.setOpaque(false);
 
-        // Form Panel
-        JPanel formPanel = new JPanel(new GridBagLayout());
+        // ===== TÍTULO =====
+        JLabel lblTitle = new JLabel("Registrar Nuevo Estudiante");
+        lblTitle.setFont(AppFonts.boldLarge().deriveFont(Font.BOLD, 26f));
+        lblTitle.setForeground(AppColors.getTextPrimary());
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(lblTitle);
+        mainContainer.add(Box.createVerticalStrut(8));
+
+        JLabel lblSubtitle = new JLabel("Complete los datos del estudiante");
+        lblSubtitle.setFont(AppFonts.small());
+        lblSubtitle.setForeground(AppColors.getTextSecondary());
+        lblSubtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(lblSubtitle);
+        mainContainer.add(Box.createVerticalStrut(22));
+
+        // ===== CARD DEL FORMULARIO =====
+        CustomSecondPanel cardForm = new CustomSecondPanel();
+        cardForm.setBackground(AppColors.getPanel());
+        cardForm.setRadius(24);
+        cardForm.setLayout(new GridBagLayout());
+        cardForm.setBorder(new EmptyBorder(18, 18, 18, 18));
+        cardForm.setPreferredSize(new Dimension(720, 420));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 18, 10, 18);
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Field Helper
         int row = 0;
 
+        // ===== ID TARJETA (solo lectura) =====
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("ID Tarjeta:"), gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("ID Tarjeta:"), gbc);
+
         lblIdTarjeta = new JLabel("---");
-        lblIdTarjeta.setFont(new Font("Monospaced", Font.BOLD, 14));
+        lblIdTarjeta.setFont(new Font("Consolas", Font.BOLD, 14));
+        lblIdTarjeta.setForeground(AppColors.getPrimary());
+        lblIdTarjeta.setOpaque(true);
+        lblIdTarjeta.setBackground(AppColors.getPanelHover());
+        lblIdTarjeta.setBorder(new EmptyBorder(6, 12, 6, 12));
         gbc.gridx = 1;
-        formPanel.add(lblIdTarjeta, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(lblIdTarjeta, gbc);
 
+        // ===== NOMBRE =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Nombre:"), gbc);
-        txtNombre = new JTextField(15);
-        gbc.gridx = 1;
-        formPanel.add(txtNombre, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("Nombre:"), gbc);
 
+        txtNombre = createStyledTextField(FIELD_WIDTH);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(txtNombre, gbc);
+
+        // ===== APELLIDO =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Apellido:"), gbc);
-        txtApellido = new JTextField(15);
-        gbc.gridx = 1;
-        formPanel.add(txtApellido, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("Apellido:"), gbc);
 
+        txtApellido = createStyledTextField(FIELD_WIDTH);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(txtApellido, gbc);
+
+        // ===== CÉDULA =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Cédula:"), gbc);
-        txtCedula = new JTextField(15);
-        gbc.gridx = 1;
-        formPanel.add(txtCedula, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("Cédula:"), gbc);
 
+        txtCedula = createStyledTextField(FIELD_WIDTH);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(txtCedula, gbc);
+
+        // ===== EDAD Y SEXO (en la misma fila) =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Edad:"), gbc);
-        txtEdad = new JTextField(5);
-        gbc.gridx = 1;
-        formPanel.add(txtEdad, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("Edad:"), gbc);
 
+        // Panel para Edad y Sexo
+        JPanel rowEdadSexo = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 0));
+        rowEdadSexo.setOpaque(false);
+
+        txtEdad = createStyledTextField(90);
+        rowEdadSexo.add(txtEdad);
+
+        JLabel lblSexo = makeLabel("Sexo:");
+        rowEdadSexo.add(lblSexo);
+
+        // ComboBox de Sexo con mejor estilo
+        cmbSexo = new JComboBox<>(new String[]{"", "Masculino", "Femenino"});
+        cmbSexo.setFont(AppFonts.normal());
+        cmbSexo.setPreferredSize(new Dimension(160, FIELD_HEIGHT));
+        cmbSexo.setBackground(Color.WHITE);
+        cmbSexo.setForeground(AppColors.getTextPrimary());
+        cmbSexo.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(AppColors.getBorder(), 1),
+            new EmptyBorder(5, 10, 5, 10)
+        ));
+        // Renderizador personalizado para mejor apariencia
+        cmbSexo.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, 
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setFont(AppFonts.normal());
+                setBorder(new EmptyBorder(8, 10, 8, 10));
+                if (isSelected) {
+                    setBackground(AppColors.getPrimary());
+                    setForeground(Color.WHITE);
+                } else {
+                    setBackground(Color.WHITE);
+                    setForeground(AppColors.getTextPrimary());
+                }
+                if (value == null || value.toString().isEmpty()) {
+                    setText("Seleccionar...");
+                    setForeground(AppColors.getTextSecondary());
+                }
+                return this;
+            }
+        });
+        rowEdadSexo.add(cmbSexo);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(rowEdadSexo, gbc);
+
+        // ===== AULA =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Sexo:"), gbc);
-        cmbSexo = new JComboBox<>(new String[] { "Maculino", "Femenino" });
-        gbc.gridx = 1;
-        formPanel.add(cmbSexo, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        cardForm.add(makeLabel("Aula (Curso):"), gbc);
 
+        txtAula = createStyledTextField(FIELD_WIDTH);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        cardForm.add(txtAula, gbc);
+
+        // ===== BOTONES =====
         row++;
         gbc.gridx = 0;
         gbc.gridy = row;
-        formPanel.add(new JLabel("Aula:"), gbc);
-        txtAula = new JTextField(5);
-        gbc.gridx = 1;
-        formPanel.add(txtAula, gbc);
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(22, 25, 16, 25);
 
-        row++;
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        formPanel.add(new JLabel("Foto:"), gbc);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        buttonPanel.setOpaque(false);
 
-        JPanel photoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnFoto = new JButton("Seleccionar...");
-        btnFoto.addActionListener(e -> seleccionarFoto());
-        lblFotoPath = new JLabel("Ninguna seleccionada");
-        lblFotoPath.setFont(new Font("Arial", Font.ITALIC, 11));
+        btnCancelar = CustomButton.danger("Cancelar");
+        btnCancelar.setPreferredSize(new Dimension(150, 46));
+        btnCancelar.setFont(AppFonts.boldNormal());
 
-        photoPanel.add(btnFoto);
-        photoPanel.add(lblFotoPath);
-
-        gbc.gridx = 1;
-        formPanel.add(photoPanel, gbc);
-
-        add(formPanel, BorderLayout.CENTER);
-
-        // Buttons
-        JPanel buttonPanel = new JPanel();
-        btnGuardar = new JButton("Guardar");
-        btnGuardar.setBackground(new Color(40, 167, 69));
-        btnGuardar.setForeground(Color.WHITE);
-
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBackground(new Color(220, 53, 69));
-        btnCancelar.setForeground(Color.WHITE);
+        btnGuardar = CustomButton.success("Guardar");
+        btnGuardar.setPreferredSize(new Dimension(150, 46));
+        btnGuardar.setFont(AppFonts.boldNormal());
 
         buttonPanel.add(btnCancelar);
         buttonPanel.add(btnGuardar);
+        cardForm.add(buttonPanel, gbc);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        cardForm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainContainer.add(cardForm);
+
+        add(mainContainer);
     }
 
-    private void seleccionarFoto() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar Foto del Estudiante");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(
-                new javax.swing.filechooser.FileNameExtensionFilter("Imágenes (JPG, PNG)", "jpg", "png", "jpeg"));
+    // ===== Métodos de utilidad =====
 
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            selectedPhotoFile = fileChooser.getSelectedFile();
-            lblFotoPath.setText(selectedPhotoFile.getName());
-        }
+    private JLabel makeLabel(String text) {
+        JLabel lbl = new JLabel(text);
+        lbl.setFont(AppFonts.boldNormal());
+        lbl.setForeground(AppColors.getTextPrimary());
+        return lbl;
     }
+
+    private CustomTextField createStyledTextField(int width) {
+        CustomTextField field = new CustomTextField(20);
+        field.setFont(AppFonts.normal());
+        field.setPreferredSize(new Dimension(width, FIELD_HEIGHT));
+        field.setBackground(Color.WHITE);
+        field.setForeground(Color.DARK_GRAY);
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(AppColors.getBorder(), 1),
+            new EmptyBorder(5, 10, 5, 10)
+        ));
+        return field;
+    }
+
+    // ===== Métodos públicos =====
 
     public void setCardId(String id) {
-        lblIdTarjeta.setText(id);
+        lblIdTarjeta.setText(id != null ? id : "---");
     }
 
-    public void addGuardarListener(ActionListener l) {
-        btnGuardar.addActionListener(l);
+    public void addGuardarListener(ActionListener listener) {
+        btnGuardar.addActionListener(listener);
     }
 
-    public void addCancelarListener(ActionListener l) {
-        btnCancelar.addActionListener(l);
+    public void addCancelarListener(ActionListener listener) {
+        btnCancelar.addActionListener(listener);
     }
 
+    /**
+     * Obtiene los datos del formulario como un EstudianteDTO.
+     * Realiza validaciones básicas de tipo.
+     */
     public EstudianteDTO obtenerDatos() {
         EstudianteDTO dto = new EstudianteDTO();
-        dto.setIdTarjeta(lblIdTarjeta.getText());
-        dto.setNombre(txtNombre.getText());
-        dto.setApellido(txtApellido.getText());
-        dto.setCedula(txtCedula.getText());
 
+        dto.setIdTarjeta(lblIdTarjeta.getText().trim());
+        dto.setNombre(txtNombre.getText().trim());
+        dto.setApellido(txtApellido.getText().trim());
+        dto.setCedula(txtCedula.getText().trim());
+
+        // Edad con validación
         try {
-            dto.setEdad(Integer.parseInt(txtEdad.getText()));
+            String edadStr = txtEdad.getText().trim();
+            dto.setEdad(edadStr.isEmpty() ? 0 : Integer.parseInt(edadStr));
         } catch (NumberFormatException e) {
             dto.setEdad(0);
         }
 
-        dto.setSexo(cmbSexo.getSelectedIndex() + 1);
+        // Sexo: índice 1 = Masculino (valor 1), índice 2 = Femenino (valor 2)
+        int selectedIndex = cmbSexo.getSelectedIndex();
+        dto.setSexo(selectedIndex > 0 ? selectedIndex : 1);
 
+        // Aula/IdCurso con validación
         try {
-            dto.setAula(Integer.parseInt(txtAula.getText()));
+            String aulaStr = txtAula.getText().trim();
+            dto.setAula(aulaStr.isEmpty() ? 1 : Integer.parseInt(aulaStr));
         } catch (NumberFormatException e) {
-            dto.setAula(0);
+            dto.setAula(1); // Valor por defecto
         }
 
+        // Estado activo por defecto
         dto.setEstado("A");
-
-        // Handle Photo Logic (Move file to Storage)
-        if (selectedPhotoFile != null && selectedPhotoFile.exists()) {
-            try {
-                // Create target directory if needed
-                File storageDir = new File("Storage" + File.separator + "Imagenes");
-                if (!storageDir.exists())
-                    storageDir.mkdirs();
-
-                // Generate unique filename: Cedula + Extension
-                String ext = getFileExtension(selectedPhotoFile);
-                String newFileName = dto.getCedula() + "." + ext;
-                File targetFile = new File(storageDir, newFileName);
-
-                // Copy file
-                Files.copy(selectedPhotoFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                // Save Relative path to DTO
-                dto.setFotoPath(targetFile.getPath());
-
-            } catch (IOException e) {
-                System.err.println("Error copiando imagen: " + e.getMessage());
-                // Don't fail the registration, just log err
-            }
-        }
 
         return dto;
     }
 
-    private String getFileExtension(File file) {
-        String name = file.getName();
-        int lastIndexOf = name.lastIndexOf(".");
-        if (lastIndexOf == -1) {
-            return "jpg"; // default
-        }
-        return name.substring(lastIndexOf + 1);
-    }
-
+    /**
+     * Limpia todos los campos del formulario.
+     */
     public void limpiarFormulario() {
         txtNombre.setText("");
         txtApellido.setText("");
         txtCedula.setText("");
         txtEdad.setText("");
         txtAula.setText("");
+        cmbSexo.setSelectedIndex(0);
         lblIdTarjeta.setText("---");
-        selectedPhotoFile = null;
-        lblFotoPath.setText("Ninguna seleccionada");
+    }
+
+    /**
+     * Valida que los campos obligatorios estén completos.
+     * 
+     * @return null si todo es válido, o mensaje de error si hay problemas
+     */
+    public String validarCampos() {
+        if (txtNombre.getText().trim().isEmpty()) {
+            return "El nombre es obligatorio.";
+        }
+        if (txtApellido.getText().trim().isEmpty()) {
+            return "El apellido es obligatorio.";
+        }
+        if (txtCedula.getText().trim().isEmpty()) {
+            return "La cédula es obligatoria.";
+        }
+        if (txtCedula.getText().trim().length() != 10) {
+            return "La cédula debe tener 10 dígitos.";
+        }
+        if (txtEdad.getText().trim().isEmpty()) {
+            return "La edad es obligatoria.";
+        }
+        try {
+            int edad = Integer.parseInt(txtEdad.getText().trim());
+            if (edad < 1 || edad > 100) {
+                return "La edad debe estar entre 1 y 100.";
+            }
+        } catch (NumberFormatException e) {
+            return "La edad debe ser un número válido.";
+        }
+        // Validar que se haya seleccionado un sexo
+        if (cmbSexo.getSelectedIndex() == 0) {
+            return "Debe seleccionar el sexo.";
+        }
+        if (txtAula.getText().trim().isEmpty()) {
+            return "El aula es obligatoria.";
+        }
+        try {
+            int aula = Integer.parseInt(txtAula.getText().trim());
+            if (aula < 1) {
+                return "El aula debe ser un número positivo.";
+            }
+        } catch (NumberFormatException e) {
+            return "El aula debe ser un número válido.";
+        }
+        if (lblIdTarjeta.getText().equals("---") || lblIdTarjeta.getText().trim().isEmpty()) {
+            return "No hay una tarjeta RFID asociada.";
+        }
+        return null; // Todo válido
     }
 }

@@ -151,11 +151,12 @@ public class DataHelperSQLiteDAO <T> implements IDAO <T> {
 
     @Override
     public boolean delete(Integer id) throws AppException {
-        String sql = String.format("UPDATE %s SET Estado = ?, FechaModifica = ? WHERE %s = ?", tableName, tablePK);
+        String sql = String.format("UPDATE %s SET IdTarjeta = ?, Estado = ?, FechaModifica = ? WHERE %s = ?", tableName, tablePK);
         try (PreparedStatement stmt = openConnection().prepareStatement(sql)) {
             stmt.setString(1, "X");
-            stmt.setString(2, getDataTimeNow());
-            stmt.setInt   (3, id);
+            stmt.setString(2, "X");
+            stmt.setString(3, getDataTimeNow());
+            stmt.setInt   (4, id);
             return stmt.executeUpdate() > 0;
         }catch (SQLException e) {
             throw new AppException(e, getClass(), "delete");
@@ -210,14 +211,19 @@ public class DataHelperSQLiteDAO <T> implements IDAO <T> {
                 String col = meta.getColumnLabel(i); // usa alias si existen
                 Object val = rs.getObject(i);
 
-                Field field = DTOClass.getDeclaredField(col);
-                if (!field.canAccess(instance)) {
-                    field.setAccessible(true);
+                // Intentar obtener el campo, si no existe en el DTO, ignorarlo
+                try {
+                    Field field = DTOClass.getDeclaredField(col);
+                    if (!field.canAccess(instance)) {
+                        field.setAccessible(true);
+                    }
+                    field.set(instance, val);
+                } catch (NoSuchFieldException ignored) {
+                    // La columna existe en BD pero no en el DTO, se ignora
                 }
-                field.set(instance, val);
             }
             return instance;
-        } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+        } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new AppException(e, getClass(), "mapResultSetToEntity");
         }
     }

@@ -3,15 +3,17 @@ package UserInterface_Component.Components;
 import javax.swing.*;
 import java.awt.*;
 
+import Infraestructure_Component.Tools.AppFonts;
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppUIConstants;
+
 public class CustomPasswordField extends JPasswordField {
 
     public CustomPasswordField(int columns) {
         super(columns);
-        setFont(new Font("Arial", Font.PLAIN, 14));
-        setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.GRAY, 1),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+        setFont(AppFonts.normal());
         setBackground(Color.WHITE);
+        setForeground(AppColors.getTextSecondary().darker());
+        setBorder(AppUIConstants.bordered(AppColors.getBorder(), AppUIConstants.PADDING_S));
     }
 }

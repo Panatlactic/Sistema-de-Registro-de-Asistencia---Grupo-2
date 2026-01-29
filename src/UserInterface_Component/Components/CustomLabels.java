@@ -1,14 +1,14 @@
-package UserInterface_Component.Styles;
+package UserInterface_Component.Components;
 
 import javax.swing.JLabel;
 
-import Infraestructure_Component.AppColors;
 import Infraestructure_Component.AppConfig;
-import Infraestructure_Component.AppFonts;
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppFonts;
 
-public abstract class AppLabels {
+public abstract class CustomLabels {
 
-    private AppLabels() {}
+    private CustomLabels() {}
 
     public static final JLabel LOGIN_LABEL = createLoginLabel();
 
@@ -28,13 +28,7 @@ public abstract class AppLabels {
         return lbl;
     }
 
-    public static final JLabel LOGO_XLABEL = createLogoxLabel();
 
-    private static JLabel createLogoxLabel() {
-        JLabel lbl = new JLabel(AppConfig.getProperty("app.name")); // "CHECKLYN"
-        lbl.setFont(AppFonts.boldxLarge());        
-        lbl.setForeground(AppColors.getTextPrimary()); // color blanco
-        return lbl;
-    }
+
 
 }

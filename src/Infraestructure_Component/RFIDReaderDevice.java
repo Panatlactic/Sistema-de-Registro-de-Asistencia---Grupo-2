@@ -1,16 +1,17 @@
 package Infraestructure_Component;
 
 import com.fazecast.jSerialComm.SerialPort;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 import Infraestructure_Component.Interfaces_Component.RFIDListener;
 
-public class RFIDReaderDevice implements Runnable {
+public class RFIDReaderDevice {
 
     private SerialPort puertoArduino;
     private RFIDListener listener;
     private volatile boolean activo = false;
     private String puertoNombre;
+    private StringBuilder buffer = new StringBuilder();
 
     public RFIDReaderDevice(String puertoNombre, RFIDListener listener) {
         this.puertoNombre = puertoNombre;
@@ -18,7 +19,7 @@ public class RFIDReaderDevice implements Runnable {
     }
 
     /**
-     * Intenta abrir el puerto
+     * Intenta abrir el puerto usando eventos (no bloquea)
      */
     public void start() throws AppException {
         puertoArduino = SerialPort.getCommPort(puertoNombre);
@@ -26,15 +27,61 @@ public class RFIDReaderDevice implements Runnable {
         puertoArduino.setNumDataBits(8);
         puertoArduino.setNumStopBits(1);
         puertoArduino.setParity(SerialPort.NO_PARITY);
-        puertoArduino.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 2000, 0);
+        
+        // Usar timeout no bloqueante
+        puertoArduino.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
         if (puertoArduino.openPort()) {
             System.out.println("[HARDWARE]: Puerto " + puertoNombre + " abierto. Esperando tarjetas...");
             this.activo = true;
 
-            Thread hiloLector = new Thread(this);
-            hiloLector.setDaemon(true);
-            hiloLector.start();
+            // Usar listener de eventos en lugar de hilo bloqueante
+            puertoArduino.addDataListener(new SerialPortDataListener() {
+                @Override
+                public int getListeningEvents() {
+                    return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+                }
+
+                @Override
+                public void serialEvent(SerialPortEvent event) {
+                    if (!activo) return;
+                    
+                    if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+                        try {
+                            int bytesAvailable = puertoArduino.bytesAvailable();
+                            if (bytesAvailable > 0) {
+                                byte[] readBuffer = new byte[bytesAvailable];
+                                puertoArduino.readBytes(readBuffer, bytesAvailable);
+                                String data = new String(readBuffer);
+                                
+                                // Acumular en buffer
+                                buffer.append(data);
+                                
+                                // Procesar líneas completas
+                                String content = buffer.toString();
+                                int newlineIndex;
+                                while ((newlineIndex = content.indexOf('\n')) >= 0) {
+                                    String linea = content.substring(0, newlineIndex).trim();
+                                    content = content.substring(newlineIndex + 1);
+                                    
+                                    if (linea.contains("UID")) {
+                                        String codigoLimpio = linea.replace("UID de la tarjeta:", "").trim();
+                                        if (listener != null && !codigoLimpio.isEmpty()) {
+                                            System.out.println("[HARDWARE]: Tarjeta detectada: " + codigoLimpio);
+                                            listener.onCardRead(codigoLimpio);
+                                        }
+                                    }
+                                }
+                                buffer = new StringBuilder(content);
+                            }
+                        } catch (Exception e) {
+                            System.err.println("[HARDWARE]: Error procesando datos: " + e.getMessage());
+                        }
+                    }
+                }
+            });
+            
+            System.out.println("[HARDWARE]: Listener de eventos configurado.");
         } else {
             throw new AppException(
                     "No se pudo abrir el puerto " + puertoNombre + ". Verifica que el Arduino esté conectado.");
@@ -44,50 +91,8 @@ public class RFIDReaderDevice implements Runnable {
     public void stop() {
         activo = false;
         if (puertoArduino != null) {
+            puertoArduino.removeDataListener();
             puertoArduino.closePort();
-        }
-    }
-
-    @Override
-    public void run() {
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(new InputStreamReader(puertoArduino.getInputStream()));
-
-            while (activo) {
-                try {
-                    if (reader.ready()) {
-                        String linea = reader.readLine();
-
-                        if (linea != null && linea.contains("UID")) {
-                            String codigoLimpio = linea.replace("UID de la tarjeta:", "").trim();
-
-                            if (listener != null && !codigoLimpio.isEmpty()) {
-
-                                // Notificar a la capa superior (App / Controller)
-                                // YA NO se guarda asistencia aqui directamente.
-                                listener.onCardRead(codigoLimpio);
-                            }
-                        }
-                    } else {
-                        Thread.sleep(100);
-                    }
-                } catch (Exception e) {
-                    if (activo) {
-                        System.err.println("[HARDWARE]: Error de lectura: " + e.getMessage());
-                        Thread.sleep(500);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("[HARDWARE]: Error fatal en el lector: " + e.getMessage());
-        } finally {
-            try {
-                if (reader != null)
-                    reader.close();
-            } catch (Exception ignored) {
-            }
         }
         System.out.println("[HARDWARE]: Lector detenido.");
     }

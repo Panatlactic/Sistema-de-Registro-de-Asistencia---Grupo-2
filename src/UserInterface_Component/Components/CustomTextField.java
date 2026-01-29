@@ -1,78 +1,30 @@
 package UserInterface_Component.Components;
+
 import javax.swing.*;
-import Infraestructure_Component.AppFonts;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppFonts;
+import Infraestructure_Component.Tools.AppUIConstants;
 
 public class CustomTextField extends JTextField {
 
     public CustomTextField(int columns) {
         super(columns);
         setFont(AppFonts.normal());
-        setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.GRAY, 1),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+        setForeground(AppColors.getTextSecondary());
         setBackground(Color.WHITE);
-
-        // Placeholder effect (simple)
-        addFocusListener(new FocusAdapter() {
-            private String placeholder = "";
-            private boolean showingPlaceholder = false;
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (showingPlaceholder) {
-                    setText("");
-                    setForeground(Color.BLACK);
-                    showingPlaceholder = false;
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (getText().isEmpty()) {
-                    setText(placeholder);
-                    setForeground(Color.GRAY);
-                    showingPlaceholder = true;
-                }
-            }
-
-            public void setPlaceholder(String placeholder) {
-                this.placeholder = placeholder;
-                if (getText().isEmpty()) {
-                    setText(placeholder);
-                    setForeground(Color.GRAY);
-                    showingPlaceholder = true;
-                }
-            }
-        });
+        setBorder(AppUIConstants.bordered(AppColors.getBorder(), AppUIConstants.PADDING_S));
     }
 
-    // Método para campos numéricos con validación básica
-    public static CustomTextField createNumericField(int columns) {
+    public static CustomTextField numeric(int columns) {
         CustomTextField field = new CustomTextField(columns);
-        field.setDocument(new javax.swing.text.PlainDocument() {
+        field.setDocument(new PlainDocument() {
             @Override
-            public void insertString(int offs, String str, javax.swing.text.AttributeSet a) throws javax.swing.text.BadLocationException {
-                if (str != null && str.matches("\\d*")) { // Solo números
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                if (str != null && str.matches("\\d*"))
                     super.insertString(offs, str, a);
-                }
-            }
-        });
-        return field;
-    }
-
-    // Método para campos de texto con límite de caracteres
-    public static CustomTextField createLimitedTextField(int columns, int maxLength) {
-        CustomTextField field = new CustomTextField(columns);
-        field.setDocument(new javax.swing.text.PlainDocument() {
-            @Override
-            public void insertString(int offs, String str, javax.swing.text.AttributeSet a) throws javax.swing.text.BadLocationException {
-                if (str != null && (getLength() + str.length()) <= maxLength) {
-                    super.insertString(offs, str, a);
-                }
             }
         });
         return field;

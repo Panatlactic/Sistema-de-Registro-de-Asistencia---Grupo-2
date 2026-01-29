@@ -2,44 +2,49 @@ package UserInterface_Component.Components;
 
 import javax.swing.*;
 
-import Infraestructure_Component.AppColors;
-import Infraestructure_Component.AppFonts;
-import java.awt.*;
+import Infraestructure_Component.Tools.AppColors;
+import Infraestructure_Component.Tools.AppFonts;
+import Infraestructure_Component.Tools.AppUIConstants;
 
 public class CustomButton extends JButton {
 
-    public CustomButton(String text) {
+    public enum Variant {
+        PRIMARY, SUCCESS, DANGER
+    }
+
+    public CustomButton(String text, Variant variant) {
         super(text);
 
-        // Fuente y colores
-        setFont(AppFonts.normal());
-        setBackground(AppColors.getPrimary());
+        setFont(AppFonts.boldNormal());
         setForeground(AppColors.getTextPrimary());
+        setCursor(AppUIConstants.CURSOR_HAND);
 
-        // IMPORTANTE: esto hace que el botón realmente muestre el color PRIMARY
-        setOpaque(true);
-        setContentAreaFilled(true);  
-        setBorderPainted(false);
-
-        // Otros ajustes visuales
         setFocusPainted(false);
-        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setBorderPainted(false);
+        setOpaque(true);
+        setContentAreaFilled(true);
+
+        setBorder(AppUIConstants.emptyBorder(AppUIConstants.PADDING_M));
+        applyBackground(Variant.PRIMARY);
     }
 
-    // Botón de éxito (PRIMARY)
-    public static CustomButton createSuccessButton(String text) {
-        CustomButton btn = new CustomButton(text);
-        btn.setBackground(AppColors.getPrimary());
-        btn.setForeground(AppColors.getTextPrimary());
-        return btn;
+    public void applyBackground(Variant variant) {
+        switch (variant) {
+            case SUCCESS -> setBackground(AppColors.getSuccess());
+            case DANGER -> setBackground(AppColors.getError());
+            default -> setBackground(AppColors.getPrimary());
+        }
     }
 
-    // Botón de peligro (rojo)
-    public static CustomButton createDangerButton(String text) {
-        CustomButton btn = new CustomButton(text);
-        btn.setBackground(new Color(220, 53, 69));
-        btn.setForeground(Color.WHITE);
-        return btn;
+    public static CustomButton primary(String text) {
+        return new CustomButton(text, Variant.PRIMARY);
+    }
+
+    public static CustomButton success(String text) {
+        return new CustomButton(text, Variant.SUCCESS);
+    }
+
+    public static CustomButton danger(String text) {
+        return new CustomButton(text, Variant.DANGER);
     }
 }
